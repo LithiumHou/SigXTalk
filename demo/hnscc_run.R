@@ -16,7 +16,7 @@ source("./Rcodes/Crosstalk_analysis.R")
 
 
 # Load data
-hnscc_expression = readRDS("./datasets/nichenet/hnscc_expression.rds")
+hnscc_expression = readRDS("./datasets/hnscc_expression.rds")
 expression = hnscc_expression$expression
 sample_info = hnscc_expression$sample_info
 tumors_remove = c("HN10","HN","HN12", "HN13", "HN24", "HN7", "HN8","HN23")
@@ -41,17 +41,17 @@ SeuratObj <- SCTransform(SeuratObj,vst.flavor = "v1")
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character())
 
 # load("/home/jiawen/myMLnet/pathways/LR_layer1_human.rda")
-LRDB <- readRDS("/home/jiawen/myMLnet/pathways/LR_layer1.rds") %>% distinct(from, to, .keep_all = T)
-RecTFDB <- readRDS("/home/jiawen/myMLnet/pathways/RT_layer2.rds") %>% distinct(from, to, .keep_all = T)
-TFTGDB <- readRDS("/home/jiawen/myMLnet/pathways/TT_layer3.rds") %>% distinct(from, to, .keep_all = T)
+LRDB <- readRDS("./datasets/LR_layer1.rds") %>% distinct(from, to, .keep_all = T)
+RecTFDB <- readRDS("./datasets/RT_layer2.rds") %>% distinct(from, to, .keep_all = T)
+TFTGDB <- readRDS("./datasets/TT_layer3.rds") %>% distinct(from, to, .keep_all = T)
 
 allgenes <- rownames(SeuratObj@assays$RNA$data)
 LRDB <- Filter_DB(LRDB,allgenes)
 RecTFDB <- Filter_DB(RecTFDB,allgenes)
 TFTGDB <- Filter_DB(TFTGDB, allgenes)
 
-write.table(RecTFDB[,1:2], file = "/home/jiawen/myMLnet/pythoncodes/inputs/RecTFDB.txt",quote = F,sep = " ")
-write.table(TFTGDB[,1:2], file = "/home/jiawen/myMLnet/pythoncodes/inputs/TFTGDB.txt",quote = F,sep = " ")
+write.table(RecTFDB[,1:2], file = "./inputs/RecTFDB.txt",quote = F,sep = " ")
+write.table(TFTGDB[,1:2], file = "./inputs/TFTGDB.txt",quote = F,sep = " ")
 
 cellchat_use <- T
 LigRec_original <- Infer_CCI(SeuratObj, LRDB = LRDB, cellchat_output = cellchat_use, db_use = "human")
@@ -65,7 +65,7 @@ Seurat_info <- list("Object" = SeuratObj,
                     "Cellchat" = cellchat_use,
                     "CCC" = LigRec_original,
                     "Celltypes" = types_used)
-filename <- "/results/seuratinfo.rds"
+filename <- "./results/seuratinfo.rds"
 saveRDS(Seurat_info, file = filename)
 rm(Seurat_info)
 
@@ -99,11 +99,11 @@ colnames(Rec_act) <- c("Rec", "Weight")
 Rec_act <- Rec_act[Rec_act$Weight > 0.1*max(Rec_act$Weight),]
 LR_Pairprob <- LR_Pairprob[LR_Pairprob$To %in% Rec_act$Rec,]
 
-write.table(LR_Pairprob, file = "/inputs/LigRec.csv",quote = F, sep = " ")
+write.table(LR_Pairprob, file = "./inputs/LigRec.csv",quote = F, sep = " ")
 Exp_clu <- Get_Exp_Clu(SeuratObj, clusterID = target_type, assay = "SCT", datatype = "counts")
-write.table(Exp_clu, file = '/ExpressionCount.csv',quote = F, sep = " ")
+write.table(Exp_clu, file = './inputs/ExpressionCount.csv',quote = F, sep = " ")
 
-system2(conda_python, args = c("/home/jiawen/myMLnet/scripts/main_new.py"))
+system2(conda_python, args = c("./pythoncodes/main_new.py"))
 gc()
 
 
