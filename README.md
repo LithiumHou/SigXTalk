@@ -12,7 +12,7 @@ pandas==2.0.3
 dhg==0.9.5  
 xgboost==2.0.3  
 scipy==1.10.1  
-scikit-learn==1.3.0
+scikit-learn==1.3.0  
 argparse==1.4.0  
 
 ## Usage
