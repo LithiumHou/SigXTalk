@@ -35,8 +35,8 @@ class HGNNPredictor(nn.Module):
 
         self.encoder_layers.append(HGNNP_layer(hgnn_channel_list[-2], hgnn_channel_list[-1], use_bn=use_bn, drop_rate=drop_rate,is_last=True))
 
-        self.rec_MLP = MLP_layer(layer_sizes = [hgnn_channel_list[-1]]+linear_channels,use_bn=True)
-        self.tf_MLP = MLP_layer(layer_sizes = [hgnn_channel_list[-1]]+linear_channels,use_bn=True)
+        self.signal_MLP = MLP_layer(layer_sizes = [hgnn_channel_list[-1]]+linear_channels,use_bn=True)
+        self.SSC_MLP = MLP_layer(layer_sizes = [hgnn_channel_list[-1]]+linear_channels,use_bn=True)
         self.tg_MLP = MLP_layer(layer_sizes = [hgnn_channel_list[-1]]+linear_channels,use_bn=True)
 
         # self.linear_decoder = nn.Linear(3*out_channels[-1], 3)
@@ -53,14 +53,14 @@ class HGNNPredictor(nn.Module):
         x = F.elu(x)
         return x
 
-    def decode(self, rec_out: torch.Tensor, tf_out: torch.Tensor, tg_out: torch.Tensor):
+    def decode(self, signal_out: torch.Tensor, SSC_out: torch.Tensor, tg_out: torch.Tensor):
 
-        prob1 = torch.cosine_similarity(rec_out,tf_out,dim=1)
-        prob2 = torch.cosine_similarity(tf_out,tg_out,dim=1)
+        prob1 = torch.cosine_similarity(signal_out,SSC_out,dim=1)
+        prob2 = torch.cosine_similarity(SSC_out,tg_out,dim=1)
         prob = torch.abs(prob1*prob2)
         return prob.view(-1,1)
 
-        # h = torch.cat([rec_out, tf_out, tg_out],dim=1)
+        # h = torch.cat([signal_out, SSC_out, tg_out],dim=1)
         # prob = self.linear_decoder(h)
 
         # return prob     
@@ -70,24 +70,24 @@ class HGNNPredictor(nn.Module):
         all_embeddings = self.encode(x, hg)
 
         
-        rec_embd = self.rec_MLP(all_embeddings)
-        tf_embd = self.tf_MLP(all_embeddings)
+        signal_embd = self.signal_MLP(all_embeddings)
+        SSC_embd = self.SSC_MLP(all_embeddings)
         tg_embd = self.tg_MLP(all_embeddings)
 
-        self.rec_output = rec_embd[training_set[:, 0]]
-        self.tf_output = tf_embd[training_set[:, 1]]
+        self.signal_output = signal_embd[training_set[:, 0]]
+        self.SSC_output = SSC_embd[training_set[:, 1]]
         self.tg_output = tg_embd[training_set[:, 2]]   
 
         """
-        rec_embd = all_embeddings[training_set[:, 0]]
-        tf_embd = all_embeddings[training_set[:, 1]]
+        signal_embd = all_embeddings[training_set[:, 0]]
+        SSC_embd = all_embeddings[training_set[:, 1]]
         tg_embd = all_embeddings[training_set[:, 2]]
-        self.rec_output = self.rec_MLP(rec_embd)
-        self.tf_output = self.tf_MLP(tf_embd)
+        self.signal_output = self.signal_MLP(signal_embd)
+        self.SSC_output = self.SSC_MLP(SSC_embd)
         self.tg_output = self.tg_MLP(tg_embd)
         """
 
-        return self.decode(self.rec_output, self.tf_output, self.tg_output)
+        return self.decode(self.signal_output, self.SSC_output, self.tg_output)
     
     """
     def reset_parameters(self):
@@ -100,7 +100,7 @@ class HGNNPredictor(nn.Module):
 
     def get_embedding(self, x: torch.Tensor, hg: "dhg.Hypergraph", training_set):
 
-        return self.rec_output, self.tf_output, self.tg_output
+        return self.signal_output, self.SSC_output, self.tg_output
     
 
 
