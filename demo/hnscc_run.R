@@ -10,7 +10,7 @@ library(ggplot2)
 library(future)
 options(stringsAsFactors = FALSE)
 
-source("./Rcodes/MLNconstruct.R")
+source("./Rcodes/Communications.R")
 source("./Rcodes/Utilities.R")
 source("./Rcodes/Crosstalk_analysis.R")
 
