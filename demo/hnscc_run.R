@@ -86,7 +86,7 @@ for(i in 1:length(types_used)){
   High_TGs[[i]] <- TG_used
 }
 common_TGs <- Reduce(intersect, High_TGs)
-write.table(common_TGs, file = "/inputs/TG.csv",quote = F)
+write.table(common_TGs, file = "./inputs/TG.csv",quote = F)
 
 conda_python <- "/home/jiawen/anaconda3/envs/SigXTalk/bin/python"
 
