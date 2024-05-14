@@ -137,23 +137,23 @@ def construct_graph(cor_mat,g_thres):
 # construct the hypergraph using the correlation/mi matrix
 def construct_hypergraph(df1, df2, hg_thres):
 
-    df1.columns = ['Receptor','TF','Weight1']
-    df2.columns = ['TF','TG','Weight2']
+    df1.columns = ['signal','SSC','Weight1']
+    df2.columns = ['SSC','TG','Weight2']
 
-    df_all = pd.merge(df1,df2,on='TF')
+    df_all = pd.merge(df1,df2,on='SSC')
     df_all['Weight'] = df_all['Weight1']*df_all['Weight2']
     df_all['Weight'] = df_all['Weight'].abs()
     del df_all['Weight1']
     del df_all['Weight2']
 
     df_sorted = df_all.sort_values(by='Weight',ascending=False)
-    df_sorted.reindex(columns=['Receptor','TF','TG','Weight'])
+    df_sorted.reindex(columns=['signal','SSC','TG','Weight'])
 
     all_len = len(df_sorted)
     hg_index = int(hg_thres*all_len)
     df_hg = df_sorted.iloc[:hg_index]
 
-    df_hg_filtered = df_hg[['Receptor','TF','TG']]
+    df_hg_filtered = df_hg[['signal','SSC','TG']]
 
     return df_hg_filtered, df_sorted
 
@@ -161,7 +161,7 @@ def construct_hypergraph(df1, df2, hg_thres):
 def Generate_positive(df,sample_thres):
 
     df_sorted = df.sort_values(by='Weight',ascending=False)
-    df_sorted.reindex(columns=['Receptor','TF','TG','Weight'])
+    df_sorted.reindex(columns=['signal','SSC','TG','Weight'])
 
     all_len = len(df_sorted)
     sample_index = int(sample_thres*all_len)    
@@ -194,16 +194,16 @@ def Generate_negative_2(df):
 def Generate_negative_3(df):
     # df: all positive samples
     # Generate all possible combinations of X, Y, and Z values
-    N1 = set(df['Receptor'])
-    N2 = set(df['TF'])
+    N1 = set(df['signal'])
+    N2 = set(df['SSC'])
     N3 = set(df['TG'])
 
     all_combinations = list(itertools.product(N1, N2, N3))
-    df_all = pd.DataFrame(all_combinations, columns=['Receptor','TF','TG'])
-    df = df[['Receptor','TF','TG']]
+    df_all = pd.DataFrame(all_combinations, columns=['signal','SSC','TG'])
+    df = df[['signal','SSC','TG']]
 
     # Filter out combinations that are not already in the DataFram
-    merged_df = df_all.merge(df, on=['Receptor','TF','TG'], how='left', indicator=True)
+    merged_df = df_all.merge(df, on=['signal','SSC','TG'], how='left', indicator=True)
     neg_samples = merged_df[merged_df['_merge'] == 'left_only']
     neg_samples = neg_samples.drop(columns='_merge')
     neg_samples_filtered = neg_samples.sample(n = len(df))  
@@ -214,7 +214,7 @@ def Generate_negative_3(df):
 def Generate_tail(df,sample_thres):
 
     df_sorted = df.sort_values(by='Weight',ascending=True)
-    df_sorted.reindex(columns=['Receptor','TF','TG','Weight'])
+    df_sorted.reindex(columns=['signal','SSC','TG','Weight'])
 
     all_len = len(df_sorted)
     sample_index = int(sample_thres*all_len)    
