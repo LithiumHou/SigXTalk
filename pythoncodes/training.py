@@ -112,7 +112,7 @@ class DataFrameDataset(Dataset):
     def __getitem__(self, idx):
         sample = self.dataframe.iloc[idx]
         # Process the sample if needed
-        features = sample[['Receptor', 'TF', 'TG']].values
+        features = sample[['signal', 'SSC', 'TG']].values
         labels = sample['label']
         return torch.tensor(features), torch.tensor(labels)
 
