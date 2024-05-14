@@ -90,7 +90,7 @@ neg_sample1 = neg_sample1.sample(n = round(len(pos_sample)*0.5))
 neg_sample2 = Generate_tail(input_all, sample_thres=args.thres[1])
 neg_sample2 = neg_sample2.sample(n = len(pos_sample)-len(neg_sample1))
 all_samples = pd.concat([pos_sample,neg_sample1,neg_sample2],axis = 0)
-all_samples[['Receptor','TF','TG']] = all_samples[['Receptor','TF','TG']].applymap(map_strings_to_indexes)
+all_samples[['signal','SSC','TG']] = all_samples[['signal','SSC','TG']].applymap(map_strings_to_indexes)
 training_data, val_data = train_test_split(all_samples, test_size=1-args.train_size-0.001, stratify=all_samples['label'],random_state=args.seed)
 
 # Construct the model
@@ -108,7 +108,7 @@ fname = '/home/jiawen/myMLnet/results/'+project+'/model_'+tt+'.pth'
 torch.save(mymodel.state_dict(), fname)
 
 mymodel.eval()
-pred_results = input_all[['Receptor','TF','TG']]
+pred_results = input_all[['signal','SSC','TG']]
 pred_tensor = torch.tensor(pred_results.values).to(device)
 predictions = mymodel(input_tensor,hg,pred_tensor)
 predictions = F.relu(predictions)
@@ -131,49 +131,49 @@ pred_filtered = pred_filtered.reset_index(drop=True)
 
 def XGBmodel_single(cur_row,exp):
 
-    cur_TF = cur_row.iloc[0,1]
+    cur_SSC = cur_row.iloc[0,1]
     cur_TG = cur_row.iloc[0,2]
-    Recs_target = cur_row['Receptor'].tolist()
-    exp_TF = np.array(exp[cur_TF])
+    signals_target = cur_row['signal'].tolist()
+    exp_SSC = np.array(exp[cur_SSC])
     exp_TG = np.array(exp[cur_TG])
 
-    exp_TFTG = exp_TF*exp_TG
-    # exp_TFTG = np.log2(1+exp_TFTG)
-    exp_recs = exp[Recs_target]
-    # exp_recs = np.log2(1+exp_recs)
+    exp_SSCTG = exp_SSC*exp_TG
+    # exp_SSCTG = np.log2(1+exp_SSCTG)
+    exp_signals = exp[signals_target]
+    # exp_signals = np.log2(1+exp_signals)
 
     xgb_model=xgb.XGBRegressor(n_estimators=1000, learning_rate=0.1, max_depth=5, random_state=2024,device = 'cuda')
-    xgb_model.fit(exp_recs,exp_TFTG)
+    xgb_model.fit(exp_signals,exp_SSCTG)
 
     importance = xgb_model.get_booster().get_score(importance_type='gain')
-    df_imp = pd.DataFrame(list(importance.items()), columns=['Receptor', 'importance'])
-    df_imp['TF'] = cur_TF
+    df_imp = pd.DataFrame(list(importance.items()), columns=['signal', 'importance'])
+    df_imp['SSC'] = cur_SSC
     df_imp['TG'] = cur_TG
-    df_imp = df_imp[['Receptor','TF','TG','importance']]
+    df_imp = df_imp[['signal','SSC','TG','importance']]
 
     return df_imp
 
 def PCR_single(cur_row,exp,n_comp = 5):
 
-    cur_TF = cur_row.iloc[0,1]
+    cur_SSC = cur_row.iloc[0,1]
     cur_TG = cur_row.iloc[0,2]
-    Recs_target = cur_row['Receptor'].tolist()
-    exp_TF = np.array(exp[cur_TF])
+    signals_target = cur_row['signal'].tolist()
+    exp_SSC = np.array(exp[cur_SSC])
     exp_TG = np.array(exp[cur_TG])
 
-    exp_TFTG = exp_TF*exp_TG
-    exp_TFTG = np.log2(1+exp_TFTG)
-    exp_recs = exp[Recs_target].values
-    exp_recs = np.log2(1+exp_recs)
+    exp_SSCTG = exp_SSC*exp_TG
+    exp_SSCTG = np.log2(1+exp_SSCTG)
+    exp_signals = exp[signals_target].values
+    exp_signals = np.log2(1+exp_signals)
 
     scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(exp_recs)
+    X_scaled = scaler.fit_transform(exp_signals)
     # Perform PCA
     pca = PCA()
     X_train_pca = pca.fit_transform(X_scaled)
     X_train_pca_reduced = X_train_pca[:, :n_comp]
     model = LinearRegression()
-    model.fit(X_train_pca_reduced, exp_TFTG)
+    model.fit(X_train_pca_reduced, exp_SSCTG)
 
     # Compute the original variable coefficients
     pc_coefficients = model.coef_
@@ -188,7 +188,7 @@ def XGBmodel_loop(df, exp):
     exp_nor = NormalizeData(exp,log2 = False)
 
     # Grouping DataFrame by 'y' and 'z'
-    grouped = df.groupby(['TF', 'TG'])
+    grouped = df.groupby(['SSC', 'TG'])
     
     print("Start XGBoost regression ...")
     
