@@ -102,9 +102,8 @@ mymodel = HGNNPredictor(
         
 mymodel = train(args, input_tensor, mymodel, hg, training_data, val_data, device)
 
-project = args.project
-tt = args.target_type
-fname = '/home/jiawen/myMLnet/results/'+project+'/model_'+tt+'.pth'
+# Save the model
+fname = '/home/jiawen/myMLnet/results/demo_model.pth'
 torch.save(mymodel.state_dict(), fname)
 
 mymodel.eval()
@@ -122,7 +121,7 @@ pred_threshold = args.thres[3]
 pred_filtered = pred_results.loc[pred_results['pred_label']>pred_threshold,:]
 
 if args.TG == 1:
-    TGs = pd.read_csv('/inputs/TG.csv',header=0, sep = ' ')
+    TGs = pd.read_csv('/inputs/TG.txt',header=0, sep = ' ')
     TGs = TGs.values.flatten().tolist()
     pred_filtered = pred_filtered[pred_filtered['TG'].isin(TGs)]
 
