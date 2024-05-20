@@ -36,7 +36,7 @@ All dependencies can be installed within a few minutes.
 ### Installation
 No extra installation is needed. 
 ### Demo
-A step-by-step tutorial to show the functionality of SigXTalk could be viewed [here](https://pages.github.com/).
+A step-by-step tutorial to show the functionality of SigXTalk could be viewed [here](https://github.com/LithiumHou/SigXTalk/blob/master/vignettes/Demo_HNSCC.md).
 
 ## License
 SigXTalk is licensed under the MIT License.
