@@ -14,10 +14,21 @@ source("./Rcodes/Communications.R")
 source("./Rcodes/Utilities.R")
 source("./Rcodes/Crosstalk_analysis.R")
 ```
-
+## Prepare the input and output directories 
+```
+input_path <- "./inputs"
+if (!dir.exists(input_path)) {
+  dir.create(input_path, recursive = TRUE)
+}
+output_path <- "./results"
+if (!dir.exists(output_path)) {
+  dir.create(outputput_path, recursive = TRUE)
+} 
+```
 ## Load and preprocess the scRNA-seq datasets (as a Seurat Object) 
-We study the HNSCC dataset. The raw data could be found at: https://zenodo.org/records/3260758/files/hnscc_expression.rds?download=1
-```{r}
+We study the HNSCC dataset. The processed seurat object containing this data could be downloaded from: 
+The raw data could be found at: https://zenodo.org/records/3260758/files/hnscc_expression.rds?download=1
+```
 SeuratObj <- readRDS("./datasets/demo_seurat_object.rds") # The HNSCC dataset
 cell_anno <- read.table("./datasets/demo_cell_annotation.csv",header = True)
 Idents(SeuratObj) <- cell_anno$cluster # The cells are labelled using pre-assigned annotations
@@ -31,15 +42,16 @@ Exp_clu <- Get_Exp_Clu(SeuratObj, clusterID = target_type, assay = "SCT", dataty
 write.table(Exp_clu, file = './inputs/ExpressionCount.csv',quote = F, sep = " ")
 ```
 
-## Load and preprocess the prior gene-gene interaction database s
-```{r}
+## Load and preprocess the prior gene-gene interaction databases
+The raw databases could be found at: https://github.com/ChanghanGitHub/exFINDER/tree/master/data, which contains the complete databases for human, mouse and zebrafish.
+```
 RecTFDB <- readRDS("./datasets/RT_layer2.rds") %>% distinct(from, to, .keep_all = T)
 TFTGDB <- readRDS("./datasets/TT_layer3.rds") %>% distinct(from, to, .keep_all = T)
 allgenes <- rownames(SeuratObj@assays$RNA$data)
 LRDB <- Filter_DB(LRDB,allgenes)
 RecTFDB <- Filter_DB(RecTFDB,allgenes)
 TFTGDB <- Filter_DB(TFTGDB, allgenes)
-# The filtered databases are prepared 
+# The filtered databases are prepared
 write.table(RecTFDB[,1:2], file = "./inputs/RecTFDB.txt",quote = F,sep = " ")
 write.table(TFTGDB[,1:2], file = "./inputs/TFTGDB.txt",quote = F,sep = " ")
 ```
@@ -55,7 +67,10 @@ Rec_act <- Rec_act[Rec_act$Weight > 0.1*max(Rec_act$Weight),]
 LR_Pairprob <- LR_Pairprob[LR_Pairprob$To %in% Rec_act$Rec,]
 write.table(LR_Pairprob, file = "./inputs/LigRec.txt",quote = F, sep = " ")
 ```
-
+Warning: if you're analysing the scRNA-seq data from MOUSE, you MUST transfrom the gene names in LR_Pairprob to match the case of mouse gene format BEFORE writing it to the LigRec.txt file:
+```
+LR_Pairprob[,1:2] <- data.frame(lapply(LR_Pairprob[,1:2], function(x) str_to_title(tolower(x))))
+```
 ## Visualize the cell-cell communication (optional)
 ```
 # Visualize the CCC patterns
@@ -85,16 +100,16 @@ write.table(common_TGs, file = "./inputs/TG.txt",quote = F,sep = " ")
 ```
 
 ## Run the SigXTalk inference
-Setup your python environment
-```{r}
+Locate your python environment
+```
 conda_python <- "/home/jiawen/anaconda3/envs/SigXTalk/bin/python"
 ```
 Before you proceed, please make sure you've successfully generated the correct inputs, including: the expression matrix ("ExpressionCount.csv"), the filtered databases ("RecTFDB.txt" and "TFTGDB.txt"), the results of CCC inference ("LigRec.txt"), and the list of target genes ("TG.txt"). All the files should be in the same directory. Then, run the following:
-```{r}
+```
 system2(conda_python, args = c("./pythoncodes/main.py"))
 ```
 SigXTalk offers tunable hyperparameters using Argparser. If you want to adjust them (for example, the learning rate and the batch size), you can run the following:
-```{r}
+```
 system2(conda_python, args = c("./pythoncodes/main.py", paste("--lr",0.02), paste("--batch_size",128)))
 
 ```
@@ -102,7 +117,7 @@ The output of SigXTalk is saved in "./results/result_demo.csv". The well-trained
 
 ## Visualize the results
 Load and filter the results:
-```{r}
+```
 CC_results <- read.csv("./results/result_demo.csv")
 colnames(CC_results) <- c("Signal","SSC","TG","PRS")
 
@@ -119,21 +134,21 @@ CC_pair_results <- Aggregate_Causality(CC_results, sum_type = "Copula",data_type
 CC_pair_results <- CC_pair_results[CC_pair_results$Weight > 0.05,]
 ```
 Visualize the number of crosstalk pathways that regulates the selected target genes:
-```{r}
+```
 ps <- PlotXT_Counts(CC_results, datatype = "TG", top_percent = 5)
 ps$outer
 print(ps$inner, vp = grid::viewport(x = 0.58, y = 0.66, width = 0.4, height = 0.3, just = c("left","bottom")))
 ```
 Visualize the contribution of each signal to the expression of most-expressed target genes:
-```{r}
+```
 PlotXT_RecTGHeatmap(CC_pair_results, Exp_clu, topk = 15 , ranktype = "expression")
 ```
 Visualize the information flow to these target genes. By default, we use the most-expressed target genes. You can also input targets you're interested in, so long as they have activated pathways.
-```{r}
+```
 PlotXT_Alluvial(CC_results, KeyTG = NULL, topk = 5,ranktype = "expression",min_weight = 0.7)
 ```
 Visualize the fidelity and specificity of a target gene:
-```{r}
+```
 KeyTG <- "MALAT1"
 PlotXT_FidSpe(CC_results,KeyTG)
 ```
