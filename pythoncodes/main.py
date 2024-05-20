@@ -59,7 +59,7 @@ input_tensor = torch.tensor(input_used.values, dtype=torch.float32)
 input_tensor = input_tensor.to(device)
 
 # load the gene-gene interaction databases
-LR = pd.read_csv('/inputs/LigRec.csv',header=0, sep = ' ')
+LR = pd.read_csv('/inputs/LigRec.txt',header=0, sep = ' ')
 Recs = list(set(LR['To']))
 RecTFDB = pd.read_csv('/inputs/RecTFDB.txt',header=0, sep = ' ')
 TFTGDB = pd.read_csv('/inputs/TFTGDB.txt',header=0, sep = ' ')
