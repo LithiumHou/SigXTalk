@@ -59,7 +59,7 @@ write.table(TFTGDB[,1:2], file = "./inputs/TFTGDB.txt",quote = F,sep = " ")
 ## Infer the cell-cell communication and identify the activated receptors (signals) of receiver cells
 ```
 LigRec_original <- Infer_CCI(SeuratObj, cellchat_output = T, db_use = "human")
-LR_Pairprob <- Extract_LR_Prob(LigRec_original, target_type = target_type, cellchat_use = cellchat_use)
+LR_Pairprob <- Extract_LR_Prob(LigRec_original, target_type = target_type, cellchat_use = T)
 Rec_act <- aggregate(LR_Pairprob$Weight, list(LR_Pairprob$To), sum)
 colnames(Rec_act) <- c("Rec", "Weight")
 Rec_act <- Rec_act[Rec_act$Weight > 0.1*max(Rec_act$Weight),]
@@ -126,11 +126,11 @@ CC_results <- CC_results[!grepl("^RPL", CC_results$TG), ]
 CC_results <- CC_results[!grepl("^RPS", CC_results$TG), ]
 
 # Filter out lowly activated pathways
-CC_results <- CC_results[CC_results$Weight_all > 0.01*max(CC_results$PRS),]
+CC_results <- CC_results[CC_results$PRS > 0.01*max(CC_results$PRS),]
 
 # Calculate the TRS
 CC_pair_results <- Aggregate_Causality(CC_results, sum_type = "Copula",data_type = "TG")
-CC_pair_results <- CC_pair_results[CC_pair_results$Weight > 0.05,]
+CC_pair_results <- CC_pair_results[CC_pair_results$PRS > 0.05,]
 ```
 Visualize the number of crosstalk pathways that regulates the selected target genes:
 ```
