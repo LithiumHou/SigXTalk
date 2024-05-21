@@ -36,11 +36,12 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 * scikit-learn==1.3.0  
 * argparse==1.4.0
   
-All dependencies can be installed within a few minutes. We recommend that an independent python environment be used to run SigXTalk
+All dependencies can be installed within a few minutes. We recommend that an independent python environment be used to run SigXTalk.
 ```
 conda create -n SigXTalk python=3.8
 conda activate SigXTalk
 ```
+SigXTalk could be run on both CUDA and CPU devices. Please make sure that you've installed the correct version of CUDA and torch if you want to use GPU for acceleration.
 ## Usage
 
 ### Installation
