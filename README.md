@@ -26,7 +26,7 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 * RColorBrewer 1.1-3
   
 ## Python code dependency  
-- python==3.8.12  
+- python==3.8
 * numpy==1.24.3  
 * torch==1.13.1 
 * pandas==2.0.3  
@@ -36,7 +36,11 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 * scikit-learn==1.3.0  
 * argparse==1.4.0
   
-All dependencies can be installed within a few minutes.
+All dependencies can be installed within a few minutes. We recommend that an independent python environment be used to run SigXTalk
+```
+conda create -n SigXTalk python=3.8
+conda activate SigXTalk
+```
 ## Usage
 
 ### Installation
