@@ -22,7 +22,7 @@ if (!dir.exists(input_path)) {
 }
 output_path <- "./results"
 if (!dir.exists(output_path)) {
-  dir.create(outputput_path, recursive = TRUE)
+  dir.create(output_path, recursive = TRUE)
 } 
 ```
 ## Load and preprocess the scRNA-seq datasets (as a Seurat Object) 
@@ -30,13 +30,14 @@ We study the HNSCC dataset. The processed seurat object containing this data cou
 The raw data could be found at: https://zenodo.org/records/3260758/files/hnscc_expression.rds?download=1
 ```
 SeuratObj <- readRDS("./datasets/demo_seurat_object.rds") # The HNSCC dataset
-cell_anno <- read.table("./datasets/demo_cell_annotation.csv",header = True)
+cell_anno <- read.table("./datasets/demo_cell_annotation.csv",header = T,sep = ",")
 Idents(SeuratObj) <- cell_anno$cluster # The cells are labelled using pre-assigned annotations
 
 SeuratObj <- subset(SeuratObj, nCount_RNA < 25000 & nFeature_RNA<10000) # Quality control
 SeuratObj <- SeuratObj %>% NormalizeData() %>% FindVariableFeatures() %>% ScaleData()
 SeuratObj <- SCTransform(SeuratObj,vst.flavor = "v1")
 
+target_type <- "malignant"
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character())
 Exp_clu <- Get_Exp_Clu(SeuratObj, clusterID = target_type, assay = "SCT", datatype = "counts") # The formatted expression matrix
 write.table(Exp_clu, file = './inputs/ExpressionCount.csv',quote = F, sep = " ")
@@ -48,7 +49,6 @@ The raw databases could be found at: https://github.com/ChanghanGitHub/exFINDER/
 RecTFDB <- readRDS("./datasets/RT_layer2.rds") %>% distinct(from, to, .keep_all = T)
 TFTGDB <- readRDS("./datasets/TT_layer3.rds") %>% distinct(from, to, .keep_all = T)
 allgenes <- rownames(SeuratObj@assays$RNA$data)
-LRDB <- Filter_DB(LRDB,allgenes)
 RecTFDB <- Filter_DB(RecTFDB,allgenes)
 TFTGDB <- Filter_DB(TFTGDB, allgenes)
 # The filtered databases are prepared
@@ -59,7 +59,6 @@ write.table(TFTGDB[,1:2], file = "./inputs/TFTGDB.txt",quote = F,sep = " ")
 ## Infer the cell-cell communication and identify the activated receptors (signals) of receiver cells
 ```
 LigRec_original <- Infer_CCI(SeuratObj, cellchat_output = T, db_use = "human")
-target_type <- "malignant"
 LR_Pairprob <- Extract_LR_Prob(LigRec_original, target_type = target_type, cellchat_use = cellchat_use)
 Rec_act <- aggregate(LR_Pairprob$Weight, list(LR_Pairprob$To), sum)
 colnames(Rec_act) <- c("Rec", "Weight")
