@@ -223,3 +223,17 @@ Nonlinear_Sum <- function(x, type = "Copula"){
     return(Csum)
   }
 }
+
+Filter_DB <- function(DB, allgenes) {
+  require(rlang)
+  DB_new <- DB[, 1:2]
+  colnames(DB_new) <- c("From", "To")
+  selfregu <- which(DB[, 1] == DB[, 2])
+  if (!is_empty(selfregu)) {
+    DB_new <- DB_new[-selfregu, ]
+  }
+  DB_new <- DB_new[DB_new$From %in% allgenes, ]
+  DB_new <- DB_new[DB_new$To %in% allgenes, ]
+
+  return(DB_new)
+}
