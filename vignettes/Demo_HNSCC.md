@@ -9,7 +9,7 @@ library(MASS)
 library(tibble)
 library(ggplot2)
 
-setwd("/home/jiawen/myMLnet") # Set the working directory where you store the SigXTalk source codes and inputs
+setwd("/home/jiawen/SigXTalk") # Set the working directory where you store the SigXTalk source codes and inputs
 source("./Rcodes/Communications.R")
 source("./Rcodes/Utilities.R")
 source("./Rcodes/Crosstalk_analysis.R")
