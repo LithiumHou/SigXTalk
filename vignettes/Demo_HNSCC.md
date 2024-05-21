@@ -26,7 +26,7 @@ if (!dir.exists(output_path)) {
 } 
 ```
 ## Load and preprocess the scRNA-seq datasets (as a Seurat Object) 
-We study the HNSCC dataset. The processed seurat object containing this data could be downloaded from: 
+We study the HNSCC dataset. The processed seurat object containing this data could be downloaded from: https://zenodo.org/records/11226600/files/demo_seurat_object.rds?download=1
 The raw data could be found at: https://zenodo.org/records/3260758/files/hnscc_expression.rds?download=1
 ```
 SeuratObj <- readRDS("./datasets/demo_seurat_object.rds") # The HNSCC dataset
