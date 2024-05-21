@@ -9,17 +9,22 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 -	estimate the regulatory strength of each activated pathway using a tree-based machine learning method; and 
 - measure the regulatory selectivity between signals and targets, by introducing the concept of pathway fidelity and specificity. 
 
-## Dependency
-
-### R code dependency
+## R code dependency
 - R 4.3.1
 * Seurat 5.1.0
 * SeuratObject 5.0.2
 * Cellchat 2.1.1
 * dplyr 1.1.4
+* tidyfst_1.7.8
+* tidyverse 2.0.0
+  
+### For plotting only
 * ggplot2 3.5.1
-
-### Python code dependency  
+* hrbrthemes 0.8.7
+* ggalluvial 0.12.5
+* RColorBrewer 1.1-3
+  
+## Python code dependency  
 - python==3.8.12  
 * numpy==1.24.3  
 * torch==1.13.1 
