@@ -13,6 +13,7 @@ setwd("/home/jiawen/SigXTalk") # Set the working directory where you store the S
 source("./Rcodes/Communications.R")
 source("./Rcodes/Utilities.R")
 source("./Rcodes/Crosstalk_analysis.R")
+source("./Rcodes/Visualization.R")
 ```
 ## Prepare the input and output directories 
 ```
@@ -49,6 +50,8 @@ The raw databases could be found at: https://github.com/ChanghanGitHub/exFINDER/
 RecTFDB <- readRDS("./datasets/RT_layer2.rds") %>% distinct(from, to, .keep_all = T)
 TFTGDB <- readRDS("./datasets/TT_layer3.rds") %>% distinct(from, to, .keep_all = T)
 allgenes <- rownames(SeuratObj@assays$RNA$data)
+
+# Filter the databases using the genes expressed in the dataset
 RecTFDB <- Filter_DB(RecTFDB,allgenes)
 TFTGDB <- Filter_DB(TFTGDB, allgenes)
 # The filtered databases are prepared
@@ -107,9 +110,9 @@ Before you proceed, please make sure you've successfully generated the correct i
 ```
 system2(conda_python, args = c("./pythoncodes/main.py"))
 ```
-SigXTalk offers tunable hyperparameters using Argparser. If you want to adjust them (for example, the learning rate and the batch size), you can run the following:
+SigXTalk offers tunable hyperparameters using the Argparser module in Python. If you want to adjust these hyperparameters (for example, the learning rate and the batch size), you can run the following:
 ```
-system2(conda_python, args = c("./pythoncodes/main.py", paste("--lr",0.02), paste("--batch_size",128)))
+system2(conda_python, args = c("./pythoncodes/main.py", paste("--lr",0.005), paste("--batch_size",128)))
 
 ```
 The output of SigXTalk is saved in "./results/result_demo.csv". The well-trained deep learning model is saved as "./results/demo_model.pth". You may edit these paths and file names in "./pythoncodes/main.py"
@@ -130,10 +133,11 @@ CC_results <- CC_results[CC_results$PRS > 0.01*max(CC_results$PRS),]
 
 # Calculate the TRS
 CC_pair_results <- Aggregate_Causality(CC_results, sum_type = "Copula",data_type = "TG")
-CC_pair_results <- CC_pair_results[CC_pair_results$PRS > 0.05,]
+CC_pair_results <- CC_pair_results[CC_pair_results$TRS > 0.05,]
 ```
 Visualize the number of crosstalk pathways that regulates the selected target genes:
 ```
+library(RColorBrewer)
 ps <- PlotXT_Counts(CC_results, datatype = "TG", top_percent = 5)
 ps$outer
 print(ps$inner, vp = grid::viewport(x = 0.58, y = 0.66, width = 0.4, height = 0.3, just = c("left","bottom")))
