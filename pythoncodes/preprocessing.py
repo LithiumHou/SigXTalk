@@ -79,7 +79,7 @@ def NormalizeData(df, log2 = False): # rows: cells, cols: genes
 
 
 # calculate the correlation between variables
-def calculate_corr_single(data, pair, type = 'MI'):
+def calculate_corr_single(data, pair, type = 'kendall'):
     # data: a pandas df, cols = genes(vars), rows = cells(samples)
     # type: MI for mutual information, Corr for Kendall's correlation
     variable1 = pair[0]
@@ -107,11 +107,11 @@ def calculate_corr(Exp_mat, DB, type = 'Spearman'):
 
     corr_args = [(Exp_mat, pair, type) for pair in cor_tuples]
 
-    with mp.Pool(processes=int(mp.cpu_count()/2)) as pool:
-        # Use starmap to pass multiple arguments to the compute function
+    with mp.Pool(processes=mp.cpu_count()) as pool:
+    # Use starmap to pass multiple arguments to the compute function
         results = pool.starmap(calculate_corr_single, corr_args)
-    pool.close()
-    pool.join()
+        pool.close()
+        pool.join()
     
     corr_df['Correlation'] = results
     return corr_df
@@ -137,7 +137,7 @@ def construct_graph(cor_mat,g_thres):
 # construct the hypergraph using the correlation/mi matrix
 def construct_hypergraph(df1, df2, hg_thres):
 
-    df1.columns = ['signal','SSC','Weight1']
+    df1.columns = ['Signal','SSC','Weight1']
     df2.columns = ['SSC','TG','Weight2']
 
     df_all = pd.merge(df1,df2,on='SSC')
@@ -147,13 +147,13 @@ def construct_hypergraph(df1, df2, hg_thres):
     del df_all['Weight2']
 
     df_sorted = df_all.sort_values(by='Weight',ascending=False)
-    df_sorted.reindex(columns=['signal','SSC','TG','Weight'])
+    df_sorted.reindex(columns=['Signal','SSC','TG','Weight'])
 
     all_len = len(df_sorted)
     hg_index = int(hg_thres*all_len)
     df_hg = df_sorted.iloc[:hg_index]
 
-    df_hg_filtered = df_hg[['signal','SSC','TG']]
+    df_hg_filtered = df_hg[['Signal','SSC','TG']]
 
     return df_hg_filtered, df_sorted
 
@@ -161,7 +161,7 @@ def construct_hypergraph(df1, df2, hg_thres):
 def Generate_positive(df,sample_thres):
 
     df_sorted = df.sort_values(by='Weight',ascending=False)
-    df_sorted.reindex(columns=['signal','SSC','TG','Weight'])
+    df_sorted.reindex(columns=['Signal','SSC','TG','Weight'])
 
     all_len = len(df_sorted)
     sample_index = int(sample_thres*all_len)    
@@ -194,16 +194,16 @@ def Generate_negative_2(df):
 def Generate_negative_3(df):
     # df: all positive samples
     # Generate all possible combinations of X, Y, and Z values
-    N1 = set(df['signal'])
+    N1 = set(df['Signal'])
     N2 = set(df['SSC'])
     N3 = set(df['TG'])
 
     all_combinations = list(itertools.product(N1, N2, N3))
-    df_all = pd.DataFrame(all_combinations, columns=['signal','SSC','TG'])
-    df = df[['signal','SSC','TG']]
+    df_all = pd.DataFrame(all_combinations, columns=['Signal','SSC','TG'])
+    df = df[['Signal','SSC','TG']]
 
     # Filter out combinations that are not already in the DataFram
-    merged_df = df_all.merge(df, on=['signal','SSC','TG'], how='left', indicator=True)
+    merged_df = df_all.merge(df, on=['Signal','SSC','TG'], how='left', indicator=True)
     neg_samples = merged_df[merged_df['_merge'] == 'left_only']
     neg_samples = neg_samples.drop(columns='_merge')
     neg_samples_filtered = neg_samples.sample(n = len(df))  
@@ -214,7 +214,7 @@ def Generate_negative_3(df):
 def Generate_tail(df,sample_thres):
 
     df_sorted = df.sort_values(by='Weight',ascending=True)
-    df_sorted.reindex(columns=['signal','SSC','TG','Weight'])
+    df_sorted.reindex(columns=['Signal','SSC','TG','Weight'])
 
     all_len = len(df_sorted)
     sample_index = int(sample_thres*all_len)    
