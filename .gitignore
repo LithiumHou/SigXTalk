@@ -2,10 +2,6 @@
 .Rbuildignore
 .DS_Store          # macOS metadata files
 Thumbs.db          # Windows metadata files
-.Rbuildignore
 *.tar.gz
 *.zip
 .Rcheck/
-pathways/
-vignettes/
-pythoncodes/
