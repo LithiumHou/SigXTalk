@@ -1,0 +1,10 @@
+^SigXTalkR\.Rproj$
+^\.Rproj\.user$
+^\.git$
+^\.gitignore$
+^pathways/
+^pythoncodes/
+^vignettes/
+^README\.md
+^LICENSE
+^myenv.yaml

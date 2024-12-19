@@ -1,5 +1,4 @@
 .Rproj.user/
-.Rbuildignore
 .DS_Store          # macOS metadata files
 Thumbs.db          # Windows metadata files
 *.tar.gz
