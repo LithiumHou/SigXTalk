@@ -41,7 +41,7 @@ remotes::install_github("LithiumHou/SigXTalk")
 ## Installation of the SigXTalk Python code dependencies
 SigXTalk requires a Python module to operate correctly. We recommend that an independent python environment be created to run SigXTalk.
 ```
-conda create -f my_env.yml
+conda env create -f myenv.yaml
 conda activate SigXTalk_py
 ```
 SigXTalk could be run on both CUDA and CPU devices. We recommend using CUDA to accelerate the training of neural network using torch:
