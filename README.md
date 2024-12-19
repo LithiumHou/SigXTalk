@@ -22,9 +22,10 @@ You may install the Seurat R package using CRAN:
 install.packages("Seurat")
 ```
 Please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for the installation of CellChat.
-Other necessary dependencies will be automatically installed when installing the SigXTalk R package
+Other necessary dependencies will be automatically installed when installing the SigXTalk R package.
 
 ### Suggested R packages for plotting only
+These packages are not necessary for performing SigXTalk algorithm, but are used when visualizing the results!
 * ComplexHeatmap 2.16.0
 * ggalluvial 0.12.5
 * ggridges 0.5.6
