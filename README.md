@@ -18,10 +18,11 @@ SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scal
 * Seurat 5.1.0
 * CellChat 2.1.1
 You may install the Seurat R package using CRAN:
-'''
+```
 install.packages("Seurat")
-'''
+```
 Please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for the installation of CellChat.
+Other necessary dependencies will be automatically installed when installing the SigXTalk R package
 
 ### Suggested R packages for plotting only
 * ComplexHeatmap 2.16.0
@@ -32,12 +33,12 @@ Please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for t
 
 ### Installation of the SigXTalk R package
 Now, you can run the following code in R to install the SigXTalk R package:
-'''
+```
 
-'''
+```
   
 ## Installation of the SigXTalk Python code dependencies
-We recommend that an independent python environment be used to run SigXTalk.
+SigXTalk requires a Python module to operate correctly. We recommend that an independent python environment be created to run SigXTalk.
 ```
 conda create -f my_env.yml
 conda activate SigXTalk_py
@@ -48,14 +49,14 @@ SigXTalk could be run on both CUDA and CPU devices. We recommend using CUDA to a
 pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
 ```
 If you do not have a CUDA device, you may use the CPU version of torch:
-'''
+```
 pip install torch==1.13.1+cpu torchvision==0.14.1+cpu torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cpu
-'''
+```
 
 Then, the dhg package is required to handle the hypergraph object:
-'''
+```
 pip install dhg
-'''
+```
 
 That's it! You are all set for the SigXTalk installation.
 
