@@ -35,7 +35,7 @@ These packages are not necessary for performing SigXTalk algorithm, but are used
 ### Installation of the SigXTalk R package
 Now, you can run the following code in R to install the SigXTalk R package:
 ```
-
+remotes::install_github("LithiumHou/SigXTalk")
 ```
   
 ## Installation of the SigXTalk Python code dependencies
@@ -59,7 +59,7 @@ Then, the dhg package is required to handle the hypergraph object:
 pip install dhg
 ```
 
-That's it! You are all set for the SigXTalk installation.
+That's it! You are now ready to perform the SigXTalk analysis.
 
 ## Usage
 
