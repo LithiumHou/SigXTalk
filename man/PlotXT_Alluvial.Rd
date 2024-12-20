@@ -13,6 +13,9 @@ PlotXT_Alluvial(CC_results, KeyTG, min_weight = 0.45)
 
 \item{min_weight}{The lower bound for the PRS of the pathways to be visualized}
 }
+\value{
+An alluvial diagram of crosstalk
+}
 \description{
 The river plot showing how the regulation flows
 }

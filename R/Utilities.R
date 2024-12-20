@@ -6,6 +6,7 @@
 #' @param datatype The datatype of the assay. By default use the "scale.data".
 #' @param cutoff The threshold for filtering out the low-expression genes.
 #' @return The expression matrix of the certain cell type.
+#' @export
 #'
 Get_Exp_Clu <- function(SeuratObj, clusterID = NULL, assay = "RNA", datatype = "data", cutoff = 0.05) {
 
@@ -137,6 +138,7 @@ Extract_LR_Prob <- function(result, source_type = NULL, target_type = NULL, pv_t
 #' @param DB The raw prior database, whose first two columns contain the "from" and "to" genes, respectively
 #' @param allgenes All the expressed genes in the dataset.
 #' @return The filtered database.
+#' @export
 #'
 Filter_DB <- function(DB, allgenes) {
 
@@ -158,6 +160,7 @@ Filter_DB <- function(DB, allgenes) {
 #' @param subset2 The second set of genes.
 #' @param background All the expressed genes
 #' @return The p-value of the fisher test
+#' @export
 Fisher_Test <- function(subset1,subset2,background){
   subset1 <- intersect(subset1, background)
   subset2 <- intersect(subset2, background)

@@ -11,6 +11,9 @@ PlotCCI_CirclePlot(result, topk = 10)
 
 \item{topk}{The number of LR pairs that are visualized}
 }
+\value{
+A circle diagram of cell-cell communication
+}
 \description{
 Visualize the LRI using the circlized diagram
 }

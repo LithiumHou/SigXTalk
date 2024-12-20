@@ -11,6 +11,9 @@ PlotCCI_ChordPlot(result, topk = 10)
 
 \item{topk}{The number of LR pairs that are visualized}
 }
+\value{
+A chord diagram of cell-cell communication
+}
 \description{
 Visualize the LRI using the chord diagram
 }

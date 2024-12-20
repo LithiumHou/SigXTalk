@@ -1,10 +1,9 @@
 ^SigXTalkR\.Rproj$
 ^\.Rproj\.user$
 ^\.git$
-^\.gitignore$
-^pathways/
+^datasets/
 ^pythoncodes/
 ^vignettes/
+^Figure\.jpg
 ^README\.md
 ^LICENSE
-^myenv.yaml

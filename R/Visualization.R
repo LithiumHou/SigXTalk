@@ -4,6 +4,7 @@
 #' @param topk The number of LR pairs that are visualized
 #' @import ggplot2
 #' @import circlize
+#' @return A chord diagram of cell-cell communication
 #' @export
 PlotCCI_ChordPlot <- function(result, topk = 10) {
   requireNamespace("circlize")
@@ -25,6 +26,7 @@ PlotCCI_ChordPlot <- function(result, topk = 10) {
 #'
 #' @param result The LR pair probability extracted from the Extract_LR_Prob() function
 #' @param topk The number of LR pairs that are visualized
+#' @return A circle diagram of cell-cell communication
 #' @export
 PlotCCI_CirclePlot <- function(result, topk = 10) {
   vertex.label.color <- "black"
@@ -207,6 +209,7 @@ PlotXT_RecTGHeatmap <- function(CC_pair_results, Exp_clu, KeyTG, topk = 25) {
 #' @param CC_results The dataframe of PRS values.
 #' @param KeyTG The target genes to be visualized.
 #' @param min_weight The lower bound for the PRS of the pathways to be visualized
+#' @return An alluvial diagram of crosstalk
 #' @export
 #'
 PlotXT_Alluvial <- function(CC_results, KeyTG, min_weight = 0.45) {
