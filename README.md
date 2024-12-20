@@ -17,6 +17,7 @@ SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scal
 - R 4.3.1
 * Seurat 5.1.0
 * CellChat 2.1.1
+  
 You may install the Seurat R package using CRAN:
 ```
 install.packages("Seurat")
@@ -41,15 +42,16 @@ remotes::install_github("LithiumHou/SigXTalk")
 ## Installation of the SigXTalk Python code dependencies
 SigXTalk requires a Python module to operate correctly. We recommend that an independent python environment be created to run SigXTalk.
 ```
-conda env create -f myenv.yaml
+conda create -n SigXTalk python=3.8
 conda activate SigXTalk_py
+pip install pandas==2.0.3 scikit-learn==1.3.0 scipy==1.10.1 numpy==1.24.3 argparse==1.4.0
 ```
-SigXTalk could be run on both CUDA and CPU devices. We recommend using CUDA to accelerate the training of neural network using torch:
+SigXTalk could be run on both CUDA and CPU devices. We strongly recommend using CUDA to accelerate the training of neural network using torch:
 
 ```
 pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
 ```
-If you do not have a CUDA device, you may use the CPU version of torch:
+If you do not have a CUDA device, you may use the CPU version of torch. However, it could be quite time-consuming.
 ```
 pip install torch==1.13.1+cpu torchvision==0.14.1+cpu torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cpu
 ```
