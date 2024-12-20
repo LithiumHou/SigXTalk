@@ -27,6 +27,7 @@ SeuratObj <- RunPCA(SeuratObj) %>% RunUMAP(dims = 1:10)
 ```
 
 ## Load the prior database
+The databases could be accessed in the /pathways directory in the GitHub repo.
 ```
 allgenes <-  rownames(SeuratObj@assays$RNA$data)
 RecTFDB <- readRDS("/home/jiawen/myMLnet/pathways/RTF_human.rds") %>% distinct(from, to, .keep_all = T) %>% Filter_DB(allgenes)
