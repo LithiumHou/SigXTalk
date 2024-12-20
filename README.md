@@ -66,7 +66,7 @@ That's it! You are now ready to perform the SigXTalk analysis.
 ## Usage
 
 ### Demo
-A step-by-step tutorial to show the functionality of SigXTalk could be viewed [here](https://github.com/LithiumHou/SigXTalk/blob/master/vignettes/Demo_HNSCC.md).
+A step-by-step tutorial to show the functionality of SigXTalk could be viewed [here](https://github.com/LithiumHou/SigXTalk/blob/master/vignettes/demo.md).
 
 ## License
 SigXTalk is licensed under the MIT License.
