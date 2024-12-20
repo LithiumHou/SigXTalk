@@ -2,7 +2,7 @@
 
 ## Load required packages
 ```
-library(SigXTalk)
+library(SigXTalkR)
 library(Seurat)
 library(dplyr)
 library(CellChat)
@@ -58,7 +58,7 @@ TG_used <- filter(TG_used, p_val_adj<1e-3) %>% rownames()
 
 input_dir <- "/home/jiawen/myMLnet/pythoncodes/inputs"
 Prepare_Input_New(SeuratObj, target_type, TGs = TG_used, CCC_results = LR_original, RecTFDB, TFTGDB, data_dir = input_dir,
-    assay = "RNA", datatype = "scale.data", exp_threshold = 0.05, CCC_threshold = 0.05)
+                  assay = "RNA", datatype = "scale.data", exp_threshold = 0.05, CCC_threshold = 0.05)
 ```
 
 ## Run the HGNN module to infer activated pathways
@@ -86,7 +86,7 @@ RTFTG_results <- read.csv(filen, header = T)
 RTFTG_results <- RTFTG_results[RTFTG_results$pred_label > 0.75, ]
 RTFTG_results <- RTFTG_results[,1:3] # The activated pathways
 Exp_clu <- Get_Exp_Clu(SeuratObj, clusterID = target_type, assay = "RNA", datatype = "data", cutoff = 0.1)
-ress <- Rec_To_TFTG(Exp_clu, RTFTG_results, method = "rf", cutoff = 0.1, use_tidy = T)
+ress <- PRS_calc(Exp_clu, RTFTG_results, cutoff = 0.1)
 ress <- ress[!grepl("^MT", ress$Target), ]
 ress <- ress[!grepl("^RPL", ress$Target), ]
 ress <- ress[!grepl("^RPS", ress$Target), ]
@@ -122,30 +122,30 @@ CellChat::netVisual_circle(LR_original@net$weight, vertex.weight = groupSize, we
 Ligand-Receptor pairs targeting the receiver
 ```
 CCC_threshold <- 0.1
-LR_Pairprob <- Extract_LR_Prob(LR_original, target_type = target_type, cellchat_use = T)
+LR_Pairprob <- Extract_LR_Prob(LR_original, target_type = target_type)
 LR_Pairprob <- LR_Pairprob[which(LR_Pairprob$Weight >= CCC_threshold * max(LR_Pairprob$Weight)), ]
 PlotCCI_CirclePlot(LR_Pairprob, topk = 30)
 ```
 
 ### Overview of the crosstalk patterns
 ```
-ps <- PlotXT_Counts(results_filtered, datatype = "Target", top_percent = 1)
+ps <- PlotXT_Counts(results_filtered, top_percent = 1)
 ps$outer
 ps$inner
 ```
 
 ### Visualize the genes with most crosstalk pathways
 ```
-CC_pair_results <- Aggregate_Causality(results_filtered, sum_type = "sum",data_type = "Target")
+CC_pair_results <- Aggregate_Causality(results_filtered, data_type = "Target")
 Counts_pathway <- Count_Crosstalk(results_filtered, KeyGenes = NULL, verbose = F, datatype = "Target")
 TG_used <- sort(Counts_pathway, decreasing = T) %>% names()
 TG_used <- TG_used[1:15]
-PlotXT_RecTGHeatmap(CC_pair_results, Exp_clu, TG_used = TG_used,topk = 100)
+PlotXT_RecTGHeatmap(CC_pair_results, Exp_clu, KeyTG = TG_used,topk = 100)
 ```
 
 ### Detailed crosstalk pattern of a certain target gene
 ```
-TG_used <- "COL6A3"
+TG_used <- "CEBPB"
 
 # Visualize using a single heatmap of PRS
 PlotXT_HeatMap(results_filtered, TG_used, "TG")
