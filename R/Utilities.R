@@ -6,6 +6,7 @@
 #' @param datatype The datatype of the assay. By default use the "scale.data".
 #' @param cutoff The threshold for filtering out the low-expression genes.
 #' @return The expression matrix of the certain cell type.
+#' @import SeuratObject
 #' @export
 #'
 Get_Exp_Clu <- function(SeuratObj, clusterID = NULL, assay = "RNA", datatype = "data", cutoff = 0.05) {
@@ -90,7 +91,7 @@ Extract_LR_Prob <- function(result, source_type = NULL, target_type = NULL, pv_t
       LR_df <- data.frame(interaction = names(probs[type, target_type, ]),Weight = probs[type, target_type, ],pval = pvals[type, target_type, ])
       LR_df <- LR_df %>%
         dplyr::filter(Weight > 0) %>%
-        filter(pval < pv_threshold)
+        dplyr::filter(pval < pv_threshold)
       if (!rlang::is_empty(LR_df)) LR_vector <- rbind(LR_vector, LR_df)
     }
   } else {
@@ -98,7 +99,7 @@ Extract_LR_Prob <- function(result, source_type = NULL, target_type = NULL, pv_t
       LR_df <- data.frame(interaction = names(probs[source_type, target_type, ]),Weight = probs[source_type, target_type, ],pval = pvals[source_type, target_type, ])
       LR_df <- LR_df %>%
         dplyr::filter(Weight > 0) %>%
-        filter(pval < pv_threshold)
+        dplyr::filter(pval < pv_threshold)
       LR_vector <- LR_df
     } else {
       LR_vector <- c()
@@ -106,7 +107,7 @@ Extract_LR_Prob <- function(result, source_type = NULL, target_type = NULL, pv_t
         LR_df <- data.frame(interaction = names(probs[source_type, type, ]),Weight = probs[source_type, type, ],pval = pvals[source_type, type, ])
         LR_df <- LR_df %>%
           dplyr::filter(Weight > 0) %>%
-          filter(pval < pv_threshold)
+          dplyr::filter(pval < pv_threshold)
         if (!rlang::is_empty(LR_df)) LR_vector <- rbind(LR_vector, LR_df)
       }
     }

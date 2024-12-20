@@ -122,7 +122,7 @@ Calculate_Fidelity_Matrix <- function(CC_results, KeyTG) {
     stop("The input gene must be a target gene!")
     return(NULL)
   }
-  CC_used <- CC_results %>% filter(Target == KeyTG)
+  CC_used <- CC_results %>% dplyr::filter(Target == KeyTG)
   CC_mat <- df_mat(CC_used, row = Receptor, col = SSC, value = Weight)
   CC_mat[is.na(CC_mat)] <- 0
   Fid_SSC <- sweep(CC_mat, 1, rowSums(CC_mat), FUN = "/") # for a given Receptor-Target, the fidelity for each SSC
@@ -157,7 +157,7 @@ Calculate_Specificity_Matrix <- function(CC_results, KeyRec) {
     stop("The input gene must be a receptor!")
     return(NULL)
   }
-  CC_used <- CC_results %>% filter(Receptor == KeyRec)
+  CC_used <- CC_results %>% dplyr::filter(Receptor == KeyRec)
   CC_used <- CC_used[!duplicated(CC_used[,1:3]),]
   CC_mat <- tidyfst::df_mat(CC_used, row = Target, col = SSC, value = Weight)
   CC_mat[is.na(CC_mat)] <- 0
@@ -186,8 +186,8 @@ Calculate_Pathway_Fidelity <- function(CC_results, KeyTG, KeySSC) {
 
   if (length(KeyRec) + length(KeySSC) != 2) stop("Must input one SSC and one Target! \n")
   CC_used <- CC_results %>%
-    filter(Target == KeyTG) %>%
-    filter(SSC == KeySSC)
+    dplyr::filter(Target == KeyTG) %>%
+    dplyr::filter(SSC == KeySSC)
   Fid_pathway <- CC_used$Weight / sum(CC_used$Weight)
   names(Fid_pathway) <- CC_used$Target
   return(Fid_pathway)
@@ -205,8 +205,8 @@ Calculate_Pathway_Specificity <- function(CC_results, KeyRec, KeySSC) {
 
   if (length(KeyRec) + length(KeySSC) != 2) stop("Must input one Receptor and one SSC! \n")
   CC_used <- CC_results %>%
-    filter(Receptor == KeyRec) %>%
-    filter(SSC == KeySSC)
+    dplyr::filter(Receptor == KeyRec) %>%
+    dplyr::filter(SSC == KeySSC)
   Spe_pathway <- CC_used$Weight / sum(CC_used$Weight)
   names(Spe_pathway) <- CC_used$Target
   return(Spe_pathway)
@@ -235,7 +235,7 @@ Calculate_Pairwise <- function(CC_pair_results, KeyGene = NULL, type = "Fid"){
     if(length(KeyGene) == 0){
       stop("The input gene is not a target gene!\n")
     }else{
-      CC_used <- filter(CC_pair_results, Target %in% KeyGene)
+      CC_used <- dplyr::filter(CC_pair_results, Target %in% KeyGene)
       temp <- CC_used %>% group_by(Target) %>% mutate(Fidelity = Weight / sum(Weight))
       temp <- temp[,c("Receptor","Target","Fidelity")]
     }
@@ -249,7 +249,7 @@ Calculate_Pairwise <- function(CC_pair_results, KeyGene = NULL, type = "Fid"){
     if(length(KeyGene) == 0){
       stop("The input gene is not a Receptor!\n")
     }else{
-      CC_used <- filter(CC_pair_results, Receptor %in% KeyGene)
+      CC_used <- dplyr::filter(CC_pair_results, Receptor %in% KeyGene)
       temp <- CC_used %>% group_by(Receptor) %>% mutate(Specificity = Weight / sum(Weight))
       temp <- temp[,c("Receptor","Target","Specificity")]
     }

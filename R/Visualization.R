@@ -119,9 +119,9 @@ PlotXT_Counts <- function(CC_results, KeyGenes = NULL, data_type = "Target", top
 
   threshold <- quantile(Counts_sorted, 1 - top_percent / 100)
   if (threshold == max(Counts_sorted)) {
-    results_topk <- filter(results, pathways >= threshold)[, 2:3]
+    results_topk <- dplyr::filter(results, pathways >= threshold)[, 2:3]
   } else {
-    results_topk <- filter(results, pathways > threshold)[, 2:3]
+    results_topk <- dplyr::filter(results, pathways > threshold)[, 2:3]
   }
   results_topk$colororder <- match(results_topk$pathways, results_topk$pathways %>% unique())
   allcolors <- grDevices::rainbow(results_topk$pathways %>% unique() %>% length())
@@ -152,7 +152,7 @@ PlotXT_Counts <- function(CC_results, KeyGenes = NULL, data_type = "Target", top
 #'
 PlotXT_RecTGHeatmap <- function(CC_pair_results, Exp_clu, KeyTG, topk = 25) {
 
-  CC_used <- CC_pair_results %>% filter(Target %in% KeyTG)
+  CC_used <- CC_pair_results %>% dplyr::filter(Target %in% KeyTG)
   CC_used <- CC_used[order(CC_used$Weight,decreasing = T),]
 
   topk <- min(topk, nrow(CC_used))
@@ -215,9 +215,9 @@ PlotXT_RecTGHeatmap <- function(CC_pair_results, Exp_clu, KeyTG, topk = 25) {
 PlotXT_Alluvial <- function(CC_results, KeyTG, min_weight = 0.45) {
   requireNamespace("ggalluvial")
 
-  CC_used <- CC_results %>% filter(Target %in% KeyTG)
+  CC_used <- CC_results %>% dplyr::filter(Target %in% KeyTG)
   threshold <- quantile(CC_used$Weight, min_weight)
-  CC_used2 <- CC_used %>% filter(Weight > threshold)
+  CC_used2 <- CC_used %>% dplyr::filter(Weight > threshold)
   # windowsFonts(A = windowsFont("Arial"),T = windowsFont("Times New Roman"))
 
   p <- ggplot(
@@ -326,7 +326,7 @@ PlotXT_HeatMap <- function(CC_results, gene_used, genetype, topk = 25){
   requireNamespace("ComplexHeatmap")
   requireNamespace("grid")
   if(genetype == "Target" | genetype == "TG"){
-    results_TG <- filter(CC_results, Target == gene_used)
+    results_TG <- dplyr::filter(CC_results, Target == gene_used)
     results_TG <- results_TG[,c('Receptor','SSC','Weight')]
     temp_mat <- df_mat(results_TG, row = Receptor, col = SSC, value = Weight)
     legend_name <- "Fidelity"
@@ -348,7 +348,7 @@ PlotXT_HeatMap <- function(CC_results, gene_used, genetype, topk = 25){
                           column_names_gp = grid::gpar(fontsize = 18),
                           width = unit(18, "cm"), height = unit(18, "cm"))
   }else if(genetype == "SSC" | genetype == "TF"){
-    results_TG <- filter(CC_results, SSC == gene_used)
+    results_TG <- dplyr::filter(CC_results, SSC == gene_used)
     results_TG <- results_TG[,c('Receptor','Target','Weight')]
     temp_mat <- df_mat(results_TG, row = Receptor, col = Target, value = Weight)
     legend_name <- "PRS"
@@ -370,7 +370,7 @@ PlotXT_HeatMap <- function(CC_results, gene_used, genetype, topk = 25){
                           column_names_gp = grid::gpar(fontsize = 18),
                           width = unit(18, "cm"), height = unit(18, "cm"))
   }else if(genetype == "Receptor" | genetype == "Rec"){
-    results_TG <- filter(CC_results, Receptor == gene_used)
+    results_TG <- dplyr::filter(CC_results, Receptor == gene_used)
     results_TG <- results_TG[,c('SSC','Target','Weight')]
     temp_mat <- df_mat(results_TG, row = SSC, col = Target, value = Weight)
     legend_name <- "Specificity"
@@ -448,11 +448,11 @@ PlotXT_MultiCircularBar <- function(df, KeyFactors = NULL, topk = 5, label_max =
   if(is.null(KeyFactors)){
     KeyFactors <- df$group %>% as.array() %>% unique()
   }else KeyFactors <- intersect(KeyFactors,df$group)
-  df <- filter(df, group %in% KeyFactors)
+  df <- dplyr::filter(df, group %in% KeyFactors)
 
   data <- c()
   for (type in KeyFactors) {
-    temp_df <- filter(df, group == type)
+    temp_df <- dplyr::filter(df, group == type)
     temp_df <- temp_df[order(temp_df$Specificity, decreasing = T),]
     data <- rbind(data, temp_df[1:topk, ])
   }

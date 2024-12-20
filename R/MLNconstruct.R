@@ -234,7 +234,7 @@ Prepare_Input_New <- function(
   colnames(RTF_filtered) <- c("Receptor","TF","PPR")
   RTF_filtered <- na.omit(RTF_filtered)
   RTF_filtered <<- RTF_filtered[RTF_filtered$PPR>0,]
-  TFTG_filtered <<- TFTG_filtered %>% filter(TF %in% TFs)
+  TFTG_filtered <<- TFTG_filtered %>% dplyr::filter(TF %in% TFs)
 
   filen <- paste0(data_dir,"/RecTFDB.csv")
   write.table(RTF_filtered, file = filen, quote = F, sep = " ")
@@ -264,7 +264,6 @@ Prepare_Input_New <- function(
 #' RecTFTG <- PRS_calc(Exp_clu, ress, cutoff = 0.15)
 #' }
 PRS_calc <- function(Exp_clu, RTT_results, cutoff = 0.15) {
-  method <- tolower(method)
 
   # make sure gene lists are in DB
   message("Preprocessing data...\n")

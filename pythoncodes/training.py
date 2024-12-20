@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 
 def Train(args, Exp, model, hypergraph, samples, device):
 
-    random.seed = args.seed
+    random.seed(args.seed)
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
     
@@ -27,7 +27,7 @@ def Train(args, Exp, model, hypergraph, samples, device):
 
     # Form dataloaders
     training_data, val_data = train_test_split(samples, test_size=1-args.train_size-0.001, 
-                                               stratify=samples['label'], random_state=random.seed)
+                                               stratify=samples['label'], random_state=args.seed)
     training_dataset = DataFrameDataset(training_data)
     training_load = DataLoader(training_dataset, batch_size=args.batch_size, shuffle=True)
     val_dataset = DataFrameDataset(val_data)
