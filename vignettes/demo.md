@@ -9,7 +9,7 @@ library(CellChat)
 ```
 
 ## Load the example dataset
-The COVID dataset (as an RDS file) is avaliable at [LINK](https://drive.google.com/file/d/1jZ2dmwpdlWyy6QObghpMOkT9cr085wqH/view?usp=sharing)
+The COVID dataset (as an RDS file) is avaliable at [LINK](https://drive.google.com/file/d/1jZ2dmwpdlWyy6QObghpMOkT9cr085wqH/view?usp=sharing).
 ```
 SeuratObj <- readRDS("/home/jiawen/myMLnet/datasets/nichenet/seurat_covid.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
@@ -17,6 +17,7 @@ cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(Seurat
 Note: if you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated.
 Here is a simplified pipeline for the data preprocessing. For a full turotial, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
 ```
+# DO NOT run for this tutorial
 # Pre-process the data starting from the expression matrix
 SeuratObj <- CreateSeuratObject(expression)
 SeuratObj[["percent.mt"]] <- PercentageFeatureSet(SeuratObj, pattern = "^MT-")
