@@ -45,11 +45,17 @@ Note: Please carefully check the input_dir, ensuring it matches the directory th
 The structure should be like:
 
 └── pythoncodes/
+
     ├── inputs/
+    
     ├── outputs/
+    
     ├── preprocessing.py
+    
     ├── predictor.py
+    
     ├── training.py
+    
     └── main_new.py
 ```
 target_type <- "Fibroblasts"
