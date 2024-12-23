@@ -1,14 +1,12 @@
 import torch
 import torch.nn.functional as F
 import random
-import sys
 import argparse
 import dhg
 import os
 
-work_dir = 'E:/release/pythoncodes'
-sys.path.append(work_dir)
-os.chdir(work_dir)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
 
 from preprocessing import *
 from predictor import *

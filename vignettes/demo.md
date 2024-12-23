@@ -7,11 +7,22 @@ library(Seurat)
 library(dplyr)
 library(CellChat)
 ```
-
+## Set the working directory
+The working directory is where you store the datasets, pathway information and pythoncodes.
+The structure of the working directory should be like:
+- **my_dir/**
+  - **pythoncodes/**
+  - **pathways/**
+  - **demo**
+  - **dataset.rds**
+```
+work_dir <- ".../my_dir"
+setwd(work_dir)
+```
 ## Load the example dataset
 The COVID dataset (as an RDS file) is avaliable at [LINK](https://drive.google.com/file/d/1jZ2dmwpdlWyy6QObghpMOkT9cr085wqH/view?usp=sharing).
 ```
-SeuratObj <- readRDS("/home/jiawen/myMLnet/datasets/nichenet/seurat_covid.rds") # as the seurat object
+SeuratObj <- readRDS("./seurat_covid.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
 ```
 Note: if you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated.
@@ -27,12 +38,11 @@ SeuratObj <- SCTransform(SeuratObj,vst.flavor = "v1")
 SeuratObj <- RunPCA(SeuratObj) %>% RunUMAP(dims = 1:10)
 ```
 
-## Load the prior database
+## Load and filter the prior database
 The databases could be accessed in the /pathways directory in the GitHub repo.
 ```
-allgenes <-  rownames(SeuratObj@assays$RNA$data)
-RecTFDB <- readRDS("/home/jiawen/myMLnet/pathways/RTF_human.rds") %>% distinct(from, to, .keep_all = T) %>% Filter_DB(allgenes)
-TFTGDB <- readRDS("/home/jiawen/myMLnet/pathways/TFT_human.rds") %>% distinct(from, to, .keep_all = T) %>% Filter_DB(allgenes)
+RecTFDB <- readRDS("./pathways/RTF_human.rds") %>% distinct(from, to, .keep_all = T) %>% Filter_DB(rownames(SeuratObj@assays$RNA$data))
+TFTGDB <- readRDS("./pathways/TFT_human.rds") %>% distinct(from, to, .keep_all = T) %>% Filter_DB(rownames(SeuratObj@assays$RNA$data))
 ```
 
 ## Infer the cell-cell communication
@@ -42,7 +52,7 @@ LR_original <- Infer_CCI(SeuratObj, cell_anno, use_spatial = F, db_use = "human"
 
 ## Prepare the input files for the HGNN module
 Note: Please carefully check the input_dir, ensuring it matches the directory that you store the python codes.
-The structure should be like:
+The structure of the python codes directory should be like:
 - **pythoncodes/**
   - **inputs/**
   - **outputs/**
@@ -57,31 +67,32 @@ target_type <- "Fibroblasts"
 TG_used <- FindMarkers(SeuratObj, target_type, min.pct = 0.25, only.pos = T, logfc.threshold = 0.25)
 TG_used <- filter(TG_used, p_val_adj<1e-3) %>% rownames()
 
-input_dir <- "/home/jiawen/myMLnet/pythoncodes/inputs"
+input_dir <- "./pythoncodes/inputs"
 Prepare_Input_New(SeuratObj, target_type, TGs = TG_used, CCC_results = LR_original, RecTFDB, TFTGDB, data_dir = input_dir,
                   assay = "RNA", datatype = "scale.data", exp_threshold = 0.05, CCC_threshold = 0.05)
 ```
 
 ## Run the HGNN module to infer activated pathways
-Note: Please check the python environment and its path. 
-```
-conda_python <- "/home/jiawen/anaconda3/envs/SigXTalk_py/bin/python"
-```
+Note: Please check the name of the pre-installed python environment which contains the HGNN module. 
 Run the HGNN module:
 ```
 args.project <- "COVID"
-args.target <- target_type
-system2(conda_python, args = c("/home/jiawen/myMLnet/pythoncodes/main_new.py", paste("--project",shQuote(args.project)), paste("--target_type",args.target)))
+conda_env <- "SigXTalk_py"
+python_script <- "./pythoncodes/main_new.py"
+args <- c("--project", args.project, "--target_type",target_type)
+system2("conda", args = c("run", "-n", conda_env, "python", python_script, args))
 ```
-Note: You can try different values hyperparameters using the command line. For example, you can set a higher learning rate by calling:
+Note: You can try different values of hyperparameters using the command line. For example, you can set a higher learning rate by calling:
 ```
-    system2(conda_python, args = c("/home/jiawen/myMLnet/pythoncodes/main_new.py", paste("--project",shQuote(args.project)), paste("--target_type",args.target)),paste("--lr",0.01))
+# Optional
+args <- c("--project", args.project, "--target_type",target_type, "--lr", 0.05)
+system2("conda", args = c("run", "-n", conda_env, "python", python_script, args))
 ```
 The results will be saved in the pythoncodes/outputs directory. You can also save it to other directories by directly modifying the paths in main_new.py file.
 
 ## Calculate the PRS
 ```
-output_dir <- '/home/jiawen/myMLnet/pythoncodes/outputs/'
+output_dir <- './pythoncodes/outputs/'
 filen <- paste0(output_dir, args.project,'/pathways_',target_type,'.csv')
 RTFTG_results <- read.csv(filen, header = T)
 RTFTG_results <- RTFTG_results[RTFTG_results$pred_label > 0.75, ]
