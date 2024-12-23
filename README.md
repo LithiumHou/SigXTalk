@@ -83,6 +83,7 @@ system2(conda_python, args = c("pythoncodes/main_new.py", paste("--project",shQu
 # Calculate the PRS
 ress <- PRS_calc(Exp_clu, RTFTG_results, cutoff = 0.1)
 # Visualize the results
+PlotXT_Alluvial(results_filtered, TG_used, min_weight = 0.8)
 ```
 ### Demo
 A step-by-step tutorial to show the functionality of SigXTalk could be viewed [here](https://github.com/LithiumHou/SigXTalk/blob/master/vignettes/demo.md).
