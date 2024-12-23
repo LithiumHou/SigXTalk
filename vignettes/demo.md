@@ -43,16 +43,13 @@ LR_original <- Infer_CCI(SeuratObj, cell_anno, use_spatial = F, db_use = "human"
 ## Prepare the input files for the HGNN module
 Note: Please carefully check the input_dir, ensuring it matches the directory that you store the python codes.
 The structure should be like:
-```plaintext
-└── pythoncodes/
-    ├── inputs/
-    ├── outputs/
-    ├── preprocessing.py
-    ├── predictor.py
-    ├── training.py
-    └── main_new.py
-```
-
+- **pythoncodes/**
+  - **inputs/**
+  - **outputs/**
+  - `preprocessing.py`
+  - `predictor.py`
+  - `training.py`
+  - `main_new.py`
 ```
 target_type <- "Fibroblasts"
 
