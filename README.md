@@ -39,7 +39,7 @@ Now, you can run the following code in R to install the SigXTalk R package:
 remotes::install_github("LithiumHou/SigXTalk")
 ```
   
-## Installation of the SigXTalk Python code dependencies
+### Installation of the SigXTalk Python code dependencies
 SigXTalk requires a Python module to operate correctly. We recommend that an independent python environment be created to run SigXTalk.
 ```
 conda create -n SigXTalk python=3.8
@@ -49,11 +49,17 @@ pip install pandas==2.0.3 scikit-learn==1.3.0 scipy==1.10.1 numpy==1.24.3 argpar
 SigXTalk could be run on both CUDA and CPU devices. We strongly recommend using CUDA to accelerate the training of neural network using torch:
 
 ```
+# On Linux or Windows
 pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
+# On OSX
+pip install torch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1
 ```
 If you do not have a CUDA device, you may use the CPU version of torch. However, it could be quite time-consuming.
 ```
+# On Linux or Windows
 pip install torch==1.13.1+cpu torchvision==0.14.1+cpu torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cpu
+# On OSX
+pip install torch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1
 ```
 
 Then, the dhg package is required to handle the hypergraph object:
@@ -65,6 +71,19 @@ That's it! You are now ready to perform the SigXTalk analysis.
 
 ## Usage
 
+### Basic Usage
+```
+# Infer the cell-cell communication
+LR_original <- Infer_CCI(SeuratObj, cell_anno, use_spatial = F, db_use = "human")
+# Prepare the input for the HGNN+ module
+Prepare_Input_New(SeuratObj, target_type, TGs = TG_used, CCC_results = LR_original, RecTFDB, TFTGDB, data_dir = input_dir,
+                  assay = "RNA", datatype = "scale.data")
+# Perform the HGNN
+system2(conda_python, args = c("pythoncodes/main_new.py", paste("--project",shQuote(args.project)), paste("--target_type",args.target)))
+# Calculate the PRS
+ress <- PRS_calc(Exp_clu, RTFTG_results, cutoff = 0.1)
+# Visualize the results
+```
 ### Demo
 A step-by-step tutorial to show the functionality of SigXTalk could be viewed [here](https://github.com/LithiumHou/SigXTalk/blob/master/vignettes/demo.md).
 
