@@ -46,10 +46,10 @@ The structure should be like:
 - **pythoncodes/**
   - **inputs/**
   - **outputs/**
-  - `preprocessing.py`
-  - `predictor.py`
-  - `training.py`
-  - `main_new.py`
+  - **preprocessing.py**
+  - **predictor.py**
+  - **training.py**
+  - **main_new.py**
 ```
 target_type <- "Fibroblasts"
 
