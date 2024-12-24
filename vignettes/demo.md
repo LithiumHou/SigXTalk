@@ -76,9 +76,9 @@ Prepare_Input_New(SeuratObj, target_type, TGs = TG_used, CCC_results = LR_origin
 Note: Please check the name of the pre-installed python environment which contains the HGNN module. 
 Run the HGNN module:
 ```
-args.project <- "COVID"
-conda_env <- "SigXTalk_py"
-python_script <- "./pythoncodes/main_new.py"
+args.project <- "COVID" # The name of the project, e.g., the dataset, or any other name you prefer
+conda_env <- "SigXTalk_py" # The conda environment that is previously installed to train the hypergraph neural network
+python_script <- "./pythoncodes/main_new.py" # The realtive path of the python script
 args <- c("--project", args.project, "--target_type",target_type)
 system2("conda", args = c("run", "-n", conda_env, "python", python_script, args))
 ```
