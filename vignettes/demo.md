@@ -149,7 +149,7 @@ ps$inner
 ### Visualize the genes with most crosstalk pathways
 ```
 CC_pair_results <- Aggregate_Causality(results_filtered, data_type = "Target")
-Counts_pathway <- Count_Crosstalk(results_filtered, KeyGenes = NULL, verbose = F, datatype = "Target")
+Counts_pathway <- Count_Crosstalk(results_filtered, KeyGenes = NULL, data_type = "Target", verbose = F)
 TG_used <- sort(Counts_pathway, decreasing = T) %>% names()
 TG_used <- TG_used[1:15]
 PlotXT_RecTGHeatmap(CC_pair_results, Exp_clu, KeyTG = TG_used,topk = 100)
