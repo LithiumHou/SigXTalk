@@ -12,6 +12,7 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 
 ## Installation
 SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scaling and dim-reduction) of datasets, CCC analysis, result visualization are processed with R, while the hypergraph construction and representative learning are processed with Python. Therefore, both the R and Python environments need to be correctly setup before using SigXTalk.
+Usually, the installation of the SigXTalk R package and other necessary dependencies could be finished in several minutes.
 
 ### R code dependencies before installing SigXTalk
 - R 4.3.1
@@ -22,7 +23,7 @@ You may install the Seurat R package using CRAN:
 ```
 install.packages("Seurat")
 ```
-Please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for the installation of CellChat.
+Please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for the installation of CellChat. The de-novo installation of CellChat could be finished in <10 minutes.
 Other necessary dependencies will be automatically installed when installing the SigXTalk R package.
 
 ### Suggested R packages for plotting only
