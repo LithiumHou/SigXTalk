@@ -43,7 +43,7 @@ remotes::install_github("LithiumHou/SigXTalk")
 ### Installation of the SigXTalk Python code dependencies
 SigXTalk requires a Python module to operate correctly. We recommend that an independent python environment be created to run SigXTalk.
 ```
-conda create -n SigXTalk python=3.8
+conda create -n SigXTalk_py python=3.8
 conda activate SigXTalk_py
 pip install pandas==2.0.3 scikit-learn==1.3.0 scipy==1.10.1 numpy==1.24.3 argparse==1.4.0
 ```
