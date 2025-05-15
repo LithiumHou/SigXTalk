@@ -20,27 +20,28 @@ Usually, the installation of the SigXTalk and other necessary dependencies could
 
 ### Installation of the SigXTalk R package (REQUIRED)
 R >= 4.3.1 is required to correctly install SigXTalk and other dependencies. All necessary dependencies will be automatically installed when installing the SigXTalk R package. 
-* CellChat is one of the dependencies required by SigXTalk. If you meet any problem while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting. 
-You can run the following code in R to install the SigXTalk R package:
+To install the SigXTalk R package, run the following command in R:
 ```
 remotes::install_github("LithiumHou/SigXTalk")
 ```
-
-### Suggested R packages for plotting only
-These packages are not necessary for performing SigXTalk algorithm, but are used when visualizing the results!
+* CellChat is one of the non-CRAN dependencies required by SigXTalk. If you encounter any issue while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting.
+  
+### Suggested R packages for plotting (OPTIONAL)
+These packages are not necessary for performing SigXTalk algorithm, but are useful when visualizing the results!
 * ggalluvial 0.12.5
 * ggridges 0.5.6
 * patchwork 1.2.0
 * scales 1.3.0
 
-### Installation of the SigXTalk Python code dependencies
+### Installation of the SigXTalk Python code dependencies (REQUIRED)
 SigXTalk requires a Python module to operate correctly. We recommend that an independent python environment be created to run SigXTalk.
 ```
 conda create -n SigXTalk_py python=3.8
 conda activate SigXTalk_py
 pip install pandas==2.0.3 scikit-learn==1.3.0 scipy==1.10.1 numpy==1.24.3 argparse==1.4.0
 ```
-SigXTalk could be run on both CUDA and CPU devices. We strongly recommend using CUDA to accelerate the training of neural network using torch:
+The Python package torch is necessary to perform the deep learning in SigXTalk, which could be run on both CUDA and CPU devices. We strongly recommend using CUDA to accelerate the training of neural network using torch.
+The installation command of torch depends on your operating system and device. If you encounter any issue, or want to know more details, please visit the [torch installation guide](https://pytorch.org/get-started/locally/).
 
 ```
 # On Linux or Windows
@@ -55,7 +56,6 @@ pip install torch==1.13.1+cpu torchvision==0.14.1+cpu torchaudio==0.13.1 --extra
 # On OSX
 pip install torch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1
 ```
-
 Then, the dhg package is required to handle the hypergraph object:
 ```
 pip install dhg
