@@ -11,35 +11,28 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 - measure the regulatory selectivity between signals and targets, by introducing the concept of pathway fidelity and specificity.
 
 ## Installation
-SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scaling and dim-reduction) of datasets, CCC analysis, result visualization are processed with R, while the hypergraph construction and representative learning are processed with Python. Therefore, both the R and Python environments need to be correctly setup before using SigXTalk.
-Usually, the installation of the SigXTalk R package and other necessary dependencies could be finished in several minutes.
+SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scaling and dim-reduction) of datasets, CCC analysis, result visualization are processed with R, while the hypergraph construction and representative learning are processed with Python. Therefore, both the R and Python environments need to be correctly setup before using SigXTalk. In short, the de-novo installation of SigXTalk contains the following steps:
+- Installing the SigXTalk R package
+- Create the Python environment for SigXTalk
+- Installing the SigXTalk Python package
+Usually, the installation of the SigXTalk and other necessary dependencies could be finished in several minutes.
 
-### R code dependencies before installing SigXTalk
-- R 4.3.1
-* Seurat 5.1.0
-* CellChat 2.1.1
-  
-You may install the Seurat R package using CRAN:
+
+### Installation of the SigXTalk R package (REQUIRED)
+R >= 4.3.1 is required to correctly install SigXTalk and other dependencies. All necessary dependencies will be automatically installed when installing the SigXTalk R package. 
+* CellChat is one of the dependencies required by SigXTalk. If you meet any problem while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting. 
+You can run the following code in R to install the SigXTalk R package:
 ```
-install.packages("Seurat")
+remotes::install_github("LithiumHou/SigXTalk")
 ```
-Please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for the installation of CellChat. The de-novo installation of CellChat could be finished in <10 minutes.
-Other necessary dependencies will be automatically installed when installing the SigXTalk R package.
 
 ### Suggested R packages for plotting only
 These packages are not necessary for performing SigXTalk algorithm, but are used when visualizing the results!
-* ComplexHeatmap 2.16.0
 * ggalluvial 0.12.5
 * ggridges 0.5.6
 * patchwork 1.2.0
 * scales 1.3.0
 
-### Installation of the SigXTalk R package
-Now, you can run the following code in R to install the SigXTalk R package:
-```
-remotes::install_github("LithiumHou/SigXTalk")
-```
-  
 ### Installation of the SigXTalk Python code dependencies
 SigXTalk requires a Python module to operate correctly. We recommend that an independent python environment be created to run SigXTalk.
 ```
