@@ -14,7 +14,6 @@ Imports:
 	methods,
 	Seurat,
 	SeuratObject,
-	CellChat,
 	igraph,
 	ranger,
 	tidymodels,
@@ -26,7 +25,10 @@ Imports:
 	foreach,
 	tidyr,
 	ggplot2,
-	circlize
+	NMF,
+	circlize,
+	ComplexHeatmap,
+	CellChat,
 Suggests:
 	forcats,
 	grDevices,
@@ -34,9 +36,12 @@ Suggests:
 	extrafont,
 	patchwork,
 	ggalluvial,
-	ComplexHeatmap,
 	scales,
 	grid
+Remotes:
+	jokergoo/circlize,
+	jokergoo/ComplexHeatmap,
+	jinworks/CellChat
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
