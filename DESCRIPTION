@@ -3,7 +3,7 @@ Title: R package for identifying and quantifying intracellular crosstalk pathway
 Version: 0.1.0
 Authors@R: 
     person("Jiawen", "Hou", email = "lithiumhou@gmail.com", role = c("aut", "cre"))
-Depends: R (>= 4.1.0)
+Depends: R (>= 4.2.0)
 Imports:
 	stringr, 
 	dplyr, 
