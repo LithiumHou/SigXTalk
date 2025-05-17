@@ -19,7 +19,7 @@ Usually, the installation of the SigXTalk and other necessary dependencies could
 
 
 ### Installation of the SigXTalk R package (REQUIRED)
-R >= 4.3.1 is required to correctly install SigXTalk and other dependencies. All necessary dependencies will be automatically installed when installing the SigXTalk R package. 
+R >= 4.2.0 is required to correctly install SigXTalk and other dependencies. All necessary dependencies will be automatically installed when installing the SigXTalk R package. 
 To install the SigXTalk R package, run the following command in R:
 ```
 remotes::install_github("LithiumHou/SigXTalk")
