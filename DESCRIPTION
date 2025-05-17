@@ -7,7 +7,7 @@ Depends: R (>= 4.1.0)
 Imports:
 	stringr, 
 	dplyr (>= 1.1.2), 
-	tidyfst (>= 1.8.0)，
+	tidyfst (>= 1.8.0),
  	Seurat (>= 5.1.0), 
 	rlang (>= 1.1.5),
 	igraph,
