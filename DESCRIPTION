@@ -2,18 +2,15 @@ Package: SigXTalkR
 Title: R package for identifying and quantifying intracellular crosstalk pathways using single cell RNA-seq data
 Version: 0.1.0
 Authors@R: 
-    person("Jiawen", "Hou", , "lithiumhou@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Jiawen", "Hou", email = "lithiumhou@gmail.com", role = c("aut", "cre"))
+Depends: R (>= 4.1.0)
 Imports:
-	dplyr,
+	dplyr (>= 1.1.2),
 	stringr,
-	tidyfst,
-	rlang,
-	utils,
-	stats,
-	methods,
-	Seurat,
-	SeuratObject,
+	tidyfst (>= 1.8.0),
+	rlang (>= 1.6.0),
+	Seurat (>= 5.1.0),
+	SeuratObject (>=5.0.2),
 	igraph,
 	ranger,
 	tidymodels,
