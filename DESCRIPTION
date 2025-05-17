@@ -10,7 +10,7 @@ Imports:
 	tidyfst (>= 1.8.0),
 	rlang (>= 1.6.0),
 	Seurat (>= 5.1.0),
-	SeuratObject (>=5.0.2),
+	SeuratObject,
 	igraph,
 	ranger,
 	tidymodels,
