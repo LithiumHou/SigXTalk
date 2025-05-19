@@ -12,6 +12,14 @@ from preprocessing import *
 from predictor import *
 from training import *
 
+def set_global_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)  # if using CUDA
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    
 def main():
 
     parser = argparse.ArgumentParser(description="Process some inputs.")
@@ -32,10 +40,7 @@ def main():
 
     args = parser.parse_args()
     device = torch.device(args.device if torch.cuda.is_available() else "cpu")
-
-    random.seed(args.seed)
-    torch.manual_seed(args.seed)
-    np.random.seed(args.seed)
+    set_global_seed(args.seed)
 
     print(f"Dataset: {args.project}, target type: {args.target_type}")
 
@@ -43,7 +48,6 @@ def main():
     input_exp = pd.read_csv('inputs/ExpressionCount.csv', header = 0, index_col=0, sep=' ') # row: genes, col: cells
     input_exp = input_exp.astype(np.float32)
     gene_all = input_exp.index.tolist()
-
     # load the gene-gene interaction databases
     RecTFDB = pd.read_csv('inputs/RecTFDB.csv',header=0, sep = ' ')
     TFTGDB = pd.read_csv('inputs/TFTGDB.csv',header=0, sep = ' ')
