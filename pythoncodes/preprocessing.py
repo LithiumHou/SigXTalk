@@ -68,7 +68,7 @@ def Generate_negative_3(df, args, sample_n = 0):
     all_combinations = list(itertools.product(N1, N2, N3))
     df_all = pd.DataFrame(all_combinations, columns=['Receptor','TF','TG'])
     df = df[['Receptor','TF','TG']]
-    random.seed(2024)
+    random.seed(curr_seed)
     # Filter out combinations that are not already in the DataFram
     merged_df = df_all.merge(df, on=['Receptor','TF','TG'], how='left', indicator=True)
     neg_samples = merged_df[merged_df['_merge'] == 'left_only']
