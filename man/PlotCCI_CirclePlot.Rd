@@ -2,7 +2,7 @@
 % Please edit documentation in R/Visualization.R
 \name{PlotCCI_CirclePlot}
 \alias{PlotCCI_CirclePlot}
-\title{Visualize the LRI using the circlized diagram}
+\title{Visualize the Ligand-Receptor Interaction (LRI) using the circlized diagram}
 \usage{
 PlotCCI_CirclePlot(result, topk = 10)
 }
@@ -15,5 +15,5 @@ PlotCCI_CirclePlot(result, topk = 10)
 A circle diagram of cell-cell communication
 }
 \description{
-Visualize the LRI using the circlized diagram
+Visualize the Ligand-Receptor Interaction (LRI) using the circlized diagram
 }

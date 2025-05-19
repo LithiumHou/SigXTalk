@@ -9,6 +9,7 @@ Imports:
 	dplyr (>= 1.1.4), 
 	tidyfst,
  	Seurat (>= 5.1.0), 
+	SeuratObject,
 	rlang,
 	igraph,
 	ranger,

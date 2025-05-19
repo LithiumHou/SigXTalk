@@ -7,8 +7,6 @@
 #' @return A chord diagram of cell-cell communication
 #' @export
 PlotCCI_ChordPlot <- function(result, topk = 10) {
-  requireNamespace("circlize")
-  requireNamespace("grDevices")
   result.sorted <- result[order(result$Weight, decreasing = TRUE), ]
   topk <- min(topk, dim(result.sorted)[1])
   result.sorted <- result.sorted[1:topk, ]
@@ -22,7 +20,7 @@ PlotCCI_ChordPlot <- function(result, topk = 10) {
   return(chordp)
 }
 
-#' Visualize the LRI using the circlized diagram
+#' Visualize the Ligand-Receptor Interaction (LRI) using the circlized diagram
 #'
 #' @param result The LR pair probability extracted from the Extract_LR_Prob() function
 #' @param topk The number of LR pairs that are visualized
@@ -93,20 +91,6 @@ PlotXT_Counts <- function(CC_results, KeyGenes = NULL, data_type = "Target", top
   results$pathways <- as.numeric(results$pathways)
   results$pathways[results$pathways == 0] <- 1
   title_name <- paste0("Number of crosstalk pathways for ", data_type, "s")
-  # windowsFonts(A = windowsFont("Arial"),T = windowsFont("Times New Roman"))
-
-  #  p <- ggplot(results, aes(x=orders, y=pathways)) +
-  #    geom_point(size = 2, aes(colour = factor(ifhub))) +
-  #    ggrepel::geom_text_repel(
-  #      data=results %>% filter(pathways >= Counts_sorted[No_SSCs-topk]), # Filter data first
-  #      aes(label=gene),box.padding = 0.5,min.segment.length = 0.5,
-  #      point.padding = 0.8,hjust = 1,vjust = 1,
-  #      size = 6
-  #    )+
-  #    labs(x = data_type, y = "Pathways") +
-  #    theme(axis.title = element_text(size = 24))+
-  #    theme(axis.text = element_text(size = 18))+
-  #    theme(legend.position = "none")
 
   p1 <- ggplot(results, aes(x = pathways)) +
     geom_histogram(binwidth = 1, fill = "#69b3a2", color = "black", alpha = 0.9) +
@@ -213,7 +197,10 @@ PlotXT_RecTGHeatmap <- function(CC_pair_results, Exp_clu, KeyTG, topk = 25) {
 #' @export
 #'
 PlotXT_Alluvial <- function(CC_results, KeyTG, min_weight = 0.45) {
-  requireNamespace("ggalluvial")
+  if (!requireNamespace("ggalluvial", quietly = TRUE)) {
+    message("Installing ggalluvial package for plotting")
+    install.packages("ggalluvial")
+  }
 
   CC_used <- CC_results %>% dplyr::filter(Target %in% KeyTG)
   threshold <- quantile(CC_used$Weight, min_weight)
@@ -323,7 +310,8 @@ PlotXT_FidSpe <- function(CC_results, KeyTG, threshold = 0.15) {
 #' @export
 #'
 PlotXT_HeatMap <- function(CC_results, gene_used, genetype, topk = 25){
-  requireNamespace("ComplexHeatmap")
+  
+  requireNamespace("ComplexHeatmap", quietly = TRUE)
   requireNamespace("grid")
   if(genetype == "Target" | genetype == "TG"){
     results_TG <- dplyr::filter(CC_results, Target == gene_used)
@@ -528,9 +516,11 @@ PlotXT_MultiCircularBar <- function(df, KeyFactors = NULL, topk = 5, label_max =
 #' @param orders The order of the genes. By default, orders <- c(rownames(mat), colnames(mat))
 #' @param edge_colors The colors of the edges.
 #' @return A chord diagram of PRS/fidelity/specificity values for a given gene that is shared.
+#' @import circlize
 #' @export
 #'
 PlotXT_Chord <- function(mat, orders = NULL,edge_colors = NULL){
+  
   if(is.null(orders)){
     orders <- c(rownames(mat), colnames(mat))
   }
