@@ -3,10 +3,10 @@ Title: R package for identifying and quantifying intracellular crosstalk pathway
 Version: 0.1.0
 Authors@R: 
     person("Jiawen", "Hou", email = "lithiumhou@gmail.com", role = c("aut", "cre"))
-Depends: R (>= 4.2.0)
+Depends: R (>= 4.1.1)
 Imports:
 	stringr, 
-	dplyr, 
+	dplyr (>= 1.1.4), 
 	tidyfst,
  	Seurat (>= 5.1.0), 
 	rlang,
@@ -22,6 +22,7 @@ Imports:
 	tidyr,
 	ggplot2,
 	NMF,
+	BiocNeighbors,
 	circlize,
 	ComplexHeatmap,
 	CellChat,
@@ -35,6 +36,7 @@ Suggests:
 	scales,
 	grid
 Remotes:
+	knncolle/BiocNeighbors,
 	jokergoo/circlize,
 	jokergoo/ComplexHeatmap,
 	jinworks/CellChat
