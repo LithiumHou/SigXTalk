@@ -99,11 +99,7 @@ RTFTG_results <- RTFTG_results[RTFTG_results$pred_label > 0.75, ]
 RTFTG_results <- RTFTG_results[,1:3] # The activated pathways
 Exp_clu <- Get_Exp_Clu(SeuratObj, clusterID = target_type, assay = "RNA", datatype = "data", cutoff = 0.1)
 ress <- PRS_calc(Exp_clu, RTFTG_results, cutoff = 0.1)
-ress <- ress[!grepl("^MT", ress$Target), ]
-ress <- ress[!grepl("^RPL", ress$Target), ]
-ress <- ress[!grepl("^RPS", ress$Target), ]
-# Filter out low-PRS pathways
-results_filtered <- filter(ress, Weight > 0.05*max(ress$Weight))
+results_filtered <- Filter_results(ress, PRS_thres = 0.05)
 ```
 
 ## Save the results (optional)
