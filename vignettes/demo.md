@@ -20,7 +20,7 @@ work_dir <- ".../my_dir"
 setwd(work_dir)
 ```
 ## Load the example dataset
-The COVID dataset (seurat_covid.rds) is avaliable in the vignettes/ folder (the same folder as this demo).
+The COVID dataset (seurat_covid.rds) is avaliable in the `vignettes` folder (the same folder as this demo).
 ```
 SeuratObj <- readRDS("./seurat_covid.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
