@@ -22,21 +22,21 @@ Imports:
 	foreach,
 	tidyr,
 	ggplot2,
+	ggalluvial,
 	NMF,
+	assorthead,
 	BiocNeighbors,
 	circlize,
 	ComplexHeatmap,
 	CellChat,
 Suggests:
 	forcats,
-	grDevices,
 	ggridges,
 	extrafont,
 	patchwork,
-	ggalluvial,
-	scales,
-	grid
+	scales
 Remotes:
+	LTLA/assorthead,
 	knncolle/BiocNeighbors,
 	jokergoo/circlize,
 	jokergoo/ComplexHeatmap,
