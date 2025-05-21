@@ -16,7 +16,7 @@ The structure of the working directory should be like the following. Here, folde
   - **inputs/**
   - **outputs/**
   - **main.py**
-  - **demo**
+  - **demo.md**
   - **dataset.rds**
 
 ```
@@ -24,21 +24,20 @@ work_dir <- ".../vignettes"
 setwd(work_dir)
 ```
 ## Load the example dataset
-The COVID dataset (seurat_covid.rds) is avaliable [here].
+The PBMC dataset (SigXTalk_demo_data.rds) is avaliable [here](https://drive.google.com/file/d/1IHbqoPcY0OnhD8G7pi7xrJ7qsplzD3wE/view?usp=sharing).
 ```
-SeuratObj <- readRDS("./seurat_covid.rds") # as the seurat object
+SeuratObj <- readRDS("./SigXTalk_demo_data.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
 ```
-Note: if you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated.
-Here is a simplified pipeline for the data preprocessing. For a full turotial on how to process data with Seurat, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
+Note: the example data imported here has been processed, following a standard Seurat pipeline. If you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated. A simplified pipeline for the data preprocessing is available [here] (). For a full turotial on how to process raw data with Seurat, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
 ```
 # DO NOT run for this tutorial
 # Pre-process the data starting from the expression matrix
+# No quality control is performed here. Please see Seurat's tutorial for details on filtering out low-quality cells. 
 SeuratObj <- CreateSeuratObject(expression)
 SeuratObj[["percent.mt"]] <- PercentageFeatureSet(SeuratObj, pattern = "^MT-")
 SeuratObj <- SeuratObj %>% NormalizeData() %>% FindVariableFeatures() 
 SeuratObj <- ScaleData(SeuratObj, features = rownames(SeuratObj), vars.to.regress = "percent.mt")
-SeuratObj <- SCTransform(SeuratObj,vst.flavor = "v1")
 SeuratObj <- RunPCA(SeuratObj) %>% RunUMAP(dims = 1:10)
 ```
 
