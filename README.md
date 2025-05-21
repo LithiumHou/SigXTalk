@@ -1,5 +1,5 @@
 # SigXTalk
-![Figure](/vignettes/Fig1.jpg)
+![Figure](/Fig1.jpg)
 ## About
 This directory contains the code and resources of the following paper:
 "Dissecting crosstalk induced by cell-cell communication using single-cell transcriptomic data"
