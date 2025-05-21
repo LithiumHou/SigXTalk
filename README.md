@@ -28,7 +28,6 @@ remotes::install_github("LithiumHou/SigXTalk")
   
 ### Suggested R packages for plotting (OPTIONAL)
 These packages are not necessary for performing SigXTalk algorithm, but are useful when visualizing the results!
-* ggalluvial 0.12.5
 * ggridges 0.5.6
 * patchwork 1.2.0
 * scales 1.3.0
