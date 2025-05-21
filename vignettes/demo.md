@@ -29,7 +29,7 @@ The PBMC dataset (SigXTalk_demo_data.rds) is avaliable [here](https://drive.goog
 SeuratObj <- readRDS("./SigXTalk_demo_data.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
 ```
-Note: the example data imported here has been processed, following a standard Seurat pipeline. If you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated. A simplified pipeline for the data preprocessing is available [here] (). For a full turotial on how to process raw data with Seurat, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
+Note: the example data imported here has been processed, following a standard Seurat pipeline. If you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated. A simplified pipeline for the data preprocessing is available [here](Process_pbmc.R). For a full turotial on how to process raw data with Seurat, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
 ```
 # DO NOT run for this tutorial
 # Pre-process the data starting from the expression matrix
