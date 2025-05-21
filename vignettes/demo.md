@@ -29,7 +29,7 @@ The PBMC dataset (SigXTalk_demo_data.rds) is avaliable [here](https://drive.goog
 SeuratObj <- readRDS("./SigXTalk_demo_data.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
 ```
-Note: the example data imported here has been processed, following a standard Seurat pipeline. If you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated. A simplified pipeline for the data preprocessing is available [here](Process_pbmc.R). For a full turotial on how to process raw data with Seurat, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
+Note: the example data imported here has been processed using the R script [here](Process_pbmc.R). For a full turotial on how to process raw data with Seurat, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
 ```
 # DO NOT run for this tutorial
 # Pre-process the data starting from the expression matrix
@@ -40,6 +40,7 @@ SeuratObj <- SeuratObj %>% NormalizeData() %>% FindVariableFeatures()
 SeuratObj <- ScaleData(SeuratObj, features = rownames(SeuratObj), vars.to.regress = "percent.mt")
 SeuratObj <- RunPCA(SeuratObj) %>% RunUMAP(dims = 1:10)
 ```
+If you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated (as above).
 
 ## Visualize the data (OPTIONAL)
 You may visualize the data using UMAP
@@ -157,7 +158,7 @@ PlotXT_RecTGHeatmap(CC_pair_results, Exp_clu, KeyTG = TG_used,topk = 100)
 
 ### Detailed crosstalk pattern of a certain target gene
 ```
-TG_used <- "CD14"
+TG_used <- TG_used[1] # The target with most crosstalk pathways
 
 # Visualize using a single heatmap of PRS
 PlotXT_HeatMap(results_filtered, TG_used, "TG")
