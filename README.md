@@ -55,7 +55,7 @@ Then, install the SigXTalk's python dependency from GitHub:
 # Please make sure you are still in the SigXTalk_py environment
 pip install git+https://github.com/LithiumHou/SigXTalk.git#subdirectory=pythoncodes
 ```
-If the above command does not work, you may manually download the `pythoncodes` directory and run the following command
+If the above command does not work, you may manually clone the `pythoncodes` directory to your device and run the following command:
 ```
 cd .../pythoncodes
 pip install .
@@ -79,7 +79,7 @@ ress <- PRS_calc(Exp_clu, RTFTG_results, cutoff = 0.1)
 PlotXT_Alluvial(results_filtered, TG_used, min_weight = 0.8)
 ```
 ### Demo
-A step-by-step tutorial to show the functionality of SigXTalk could be viewed [here](https://github.com/LithiumHou/SigXTalk/blob/master/vignettes/demo.md).
+A step-by-step tutorial to show the functionality of SigXTalk could be viewed [here](/vignettes/demo.md).
 
 ## License
 SigXTalk is licensed under the MIT License.
