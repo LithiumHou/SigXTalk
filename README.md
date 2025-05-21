@@ -12,9 +12,9 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 
 ## Installation
 SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scaling and dim-reduction) of datasets, CCC analysis, result visualization are processed with R, while the hypergraph construction and representative learning are processed with Python. Therefore, both the R and Python environments need to be correctly setup before using SigXTalk. In short, the de-novo installation of SigXTalk contains the following steps:
-- Installing the SigXTalk R package
+- Install the SigXTalk R package
 - Create the Python environment for SigXTalk
-- Installing the SigXTalk Python package
+- Install the SigXTalk Python module
 Usually, the installation of the SigXTalk and other necessary dependencies could be finished in several minutes.
 
 
