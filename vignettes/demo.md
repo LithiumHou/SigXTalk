@@ -9,7 +9,7 @@ library(CellChat)
 ```
 ## Set the working directory
 The working directory is where you store the datasets, pathway information and pythoncodes. In this tutorial, we simply use the `vignettes` as the directory.
-The structure of the working directory should be like the following. Here, folders `inputs` and `outputs` will be created automatically while running the script, you do not need to create them by yourself.
+The structure of the working directory should be like the following. Here, directories `inputs` and `outputs` will be created automatically while running the script, you do not need to create them by yourself.
 
 - **work_dir/**
   - **pathways/**
@@ -29,7 +29,7 @@ The PBMC dataset (SigXTalk_demo_data.rds) is avaliable [here](https://drive.goog
 SeuratObj <- readRDS("./SigXTalk_demo_data.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
 ```
-Note: the example data imported here has been processed, following a standard Seurat pipeline. If you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated. A simplified pipeline for the data preprocessing is available [here](Process_pbmc.R). For a full turotial on how to process raw data with Seurat, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
+Note: the example data imported here has been processed, following a standard Seurat pipeline. If you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated. A simplified pipeline for the data preprocessing is available at `Process_pbmc.R`. For a full turotial on how to process raw data with Seurat, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
 ```
 # DO NOT run for this tutorial
 # Pre-process the data starting from the expression matrix
@@ -63,7 +63,7 @@ LR_original <- Infer_CCI(SeuratObj, cell_anno, use_spatial = F, db_use = "human"
 
 We use the differentially expressed genes as the target genes. You may also adjust the arguments of `FindMarkers` if you want a different list of target genes.
 ```
-target_type <- "Fibroblasts"
+target_type <- "CD14_Mono"
 TG_used <- FindMarkers(SeuratObj, target_type, min.pct = 0.25, only.pos = T, logfc.threshold = 0.25)
 TG_used <- filter(TG_used, p_val_adj<1e-3) %>% rownames()
 
@@ -76,7 +76,7 @@ Prepare_Input_New(SeuratObj, target_type, TGs = TG_used, CCC_results = LR_origin
 Note: Please check the name of the pre-installed python environment which contains the HGNN module. 
 Run the HGNN module:
 ```
-args.project <- "COVID" # The name of the project, e.g., the dataset, or any other name you prefer
+args.project <- "PBMC" # The name of the project, e.g., the dataset, or any other name you prefer
 conda_env <- "SigXTalk_py" # The conda environment that is previously installed to train the hypergraph neural network
 python_script <- "./main.py" # The realtive path of the python script
 args <- c("--project", args.project, "--target_type",target_type)
@@ -90,7 +90,7 @@ system2("conda", args = c("run", "-n", conda_env, "python", python_script, args)
 ```
 The results will be saved in the pythoncodes/outputs directory. You can also save it to other directories by directly modifying the paths in main_new.py file.
 
-## Calculate the PRS
+## Calculate and filter the PRS
 ```
 output_dir <- './pythoncodes/outputs/'
 filen <- paste0(output_dir, args.project,'/pathways_',target_type,'.csv')
@@ -99,7 +99,10 @@ RTFTG_results <- RTFTG_results[RTFTG_results$pred_label > 0.75, ]
 RTFTG_results <- RTFTG_results[,1:3] # The activated pathways
 Exp_clu <- Get_Exp_Clu(SeuratObj, clusterID = target_type, assay = "RNA", datatype = "data", cutoff = 0.1)
 ress <- PRS_calc(Exp_clu, RTFTG_results, cutoff = 0.1)
-results_filtered <- Filter_results(ress, PRS_thres = 0.05)
+ress <- ress[!grepl("^MT-", ress$Target), ]
+ress <- ress[!grepl("^RPL", ress$Target), ]
+ress <- ress[!grepl("^RPS", ress$Target), ]
+results_filtered <- filter(ress, Weight > 0.01*max(ress$Weight))
 ```
 
 ## Save the results (optional)
@@ -154,7 +157,7 @@ PlotXT_RecTGHeatmap(CC_pair_results, Exp_clu, KeyTG = TG_used,topk = 100)
 
 ### Detailed crosstalk pattern of a certain target gene
 ```
-TG_used <- "CEBPB"
+TG_used <- "CD14"
 
 # Visualize using a single heatmap of PRS
 PlotXT_HeatMap(results_filtered, TG_used, "TG")
@@ -164,4 +167,3 @@ PlotXT_Alluvial(results_filtered, TG_used, min_weight = 0.8) # You may adjust th
 PlotXT_FidSpe(results_filtered, TG_used, threshold = 0.01)
 
 ```
-
