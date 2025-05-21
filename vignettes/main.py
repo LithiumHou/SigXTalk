@@ -4,7 +4,10 @@ import argparse
 import pandas as pd
 import numpy as np
 import os
-from SigXTalkpy import *
+from SigXTalkpy import predictor as pred
+from SigXTalkpy import training as tr
+from SigXTalkpy import preprocessing as pp
+
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
@@ -50,21 +53,21 @@ def main():
     TFTGDB = pd.read_csv('inputs/TFTGDB.csv',header=0, sep = ' ')
 
     # construct the hypergraph and generate the training samples
-    df_rt = calculate_corr(input_exp.T, RecTFDB, type = args.corr_type, abss = False)
-    df_tftg = calculate_corr(input_exp.T, TFTGDB, type = args.corr_type, abss = False)
+    df_rt = pp.calculate_corr(input_exp.T, RecTFDB, type = args.corr_type, abss = False)
+    df_tftg = pp.calculate_corr(input_exp.T, TFTGDB, type = args.corr_type, abss = False)
 
 
-    hg, all_samples, input_all = Filter_RTTDB(RecTFDB, df_tftg, thres1 = args.thres[0], thres2 = args.thres[1], genes = gene_all,
+    hg, all_samples, input_all = pp.Filter_RTTDB(RecTFDB, df_tftg, thres1 = args.thres[0], thres2 = args.thres[1], genes = gene_all,
                                                 args = args, first = 'score', sample_scale = 0.75, ood_frac = 0.5)
 
     # Construct the model
-    mymodel = HGNNPredictor(
+    mymodel = pred.HGNNPredictor(
         in_channels = input_exp.shape[1],
         hgnn_channels = args.hgnn_dims,
         linear_channels = args.linear_dims
     )
     print(f"start training...")
-    mymodel = Train(args, input_exp, mymodel, hg, all_samples, device)
+    mymodel = tr.Train(args, input_exp, mymodel, hg, all_samples, device)
 
     new_folder = 'outputs/'+args.project
     os.makedirs(new_folder, exist_ok=True)
@@ -73,7 +76,7 @@ def main():
         fname = 'outputs/'+args.project+'/model_'+args.target_type+'.pth'
         torch.save(mymodel.state_dict(), fname)
 
-    pred_results = Predict(Exp = input_exp, model = mymodel, input_samples = input_all,
+    pred_results = tr.Predict(Exp = input_exp, model = mymodel, input_samples = input_all,
                         hypergraph = hg, genes = gene_all, device = device)
 
     # Save the results!

@@ -5,7 +5,6 @@ import time
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-import random
 
 from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import roc_auc_score,average_precision_score
