@@ -27,12 +27,10 @@ dist/
 *.rdb
 *.rdx
 .Rcheck/
-.Rbuildignore
 NAMESPACE
-man/
+
 
 # === Other ===
 .DS_Store
-*.jpg
 *.rds
 *.RDS
