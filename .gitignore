@@ -1,3 +1,38 @@
-.Rproj.user
+# === Python Package ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+*.log
+*.spec
+*.manifest
+*.tmp
+*.bak
+
+# Build outputs
+build/
+dist/
+*.whl
+*.tar.gz
+
+# === R Package ===
 .Rhistory
-SigXTalkR
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+*.rdb
+*.rdx
+.Rcheck/
+.Rbuildignore
+NAMESPACE
+man/
+
+# === Other ===
+.DS_Store
+*.jpg
+*.rds
+*.RDS

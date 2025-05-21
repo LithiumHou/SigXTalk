@@ -8,25 +8,29 @@ library(dplyr)
 library(CellChat)
 ```
 ## Set the working directory
-The working directory is where you store the datasets, pathway information and pythoncodes.
-The structure of the working directory should be like:
-- **my_dir/**
-  - **pythoncodes/**
+The working directory is where you store the datasets, pathway information and pythoncodes. In this tutorial, we simply use the `vignettes` as the directory.
+The structure of the working directory should be like the following. Here, folders `inputs` and `outputs` will be created automatically while running the script, you do not need to create them by yourself.
+
+- **work_dir/**
   - **pathways/**
+  - **inputs/**
+  - **outputs/**
+  - **main.py**
   - **demo**
   - **dataset.rds**
+
 ```
-work_dir <- ".../my_dir"
+work_dir <- ".../vignettes"
 setwd(work_dir)
 ```
 ## Load the example dataset
-The COVID dataset (seurat_covid.rds) is avaliable in the `vignettes` folder (the same folder as this demo).
+The COVID dataset (seurat_covid.rds) is avaliable [here].
 ```
 SeuratObj <- readRDS("./seurat_covid.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
 ```
 Note: if you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated.
-Here is a simplified pipeline for the data preprocessing. For a full turotial, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
+Here is a simplified pipeline for the data preprocessing. For a full turotial on how to process data with Seurat, visit [here](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
 ```
 # DO NOT run for this tutorial
 # Pre-process the data starting from the expression matrix
@@ -38,6 +42,12 @@ SeuratObj <- SCTransform(SeuratObj,vst.flavor = "v1")
 SeuratObj <- RunPCA(SeuratObj) %>% RunUMAP(dims = 1:10)
 ```
 
+## Visualize the data (OPTIONAL)
+You may visualize the data using UMAP
+```
+DimPlot(SeuratObj, reduction = "umap", pt.size = 1)
+```
+
 ## Load and filter the prior database
 The databases could be accessed in the /pathways directory in the GitHub repo.
 ```
@@ -45,29 +55,20 @@ RecTFDB <- readRDS("./pathways/RTF_human.rds") %>% distinct(from, to, .keep_all 
 TFTGDB <- readRDS("./pathways/TFT_human.rds") %>% distinct(from, to, .keep_all = T) %>% Filter_DB(rownames(SeuratObj@assays$RNA$data))
 ```
 
-## Infer the cell-cell communication
+## Infer the cell-cell communication using CellChat
 ```
 LR_original <- Infer_CCI(SeuratObj, cell_anno, use_spatial = F, db_use = "human")
 ```
 
 ## Prepare the input files for the HGNN module
-Note: Please carefully check the input_dir, ensuring it matches the directory that you store the python codes.
-The structure of the python codes directory should be like:
-- **pythoncodes/**
-  - **inputs/**
-  - **outputs/**
-  - **preprocessing.py**
-  - **predictor.py**
-  - **training.py**
-  - **main_new.py**
+
+We use the differentially expressed genes as the target genes. You may also adjust the arguments of `FindMarkers` if you want a different list of target genes.
 ```
 target_type <- "Fibroblasts"
-
-# Use the differentially expressed genes as the target genes
 TG_used <- FindMarkers(SeuratObj, target_type, min.pct = 0.25, only.pos = T, logfc.threshold = 0.25)
 TG_used <- filter(TG_used, p_val_adj<1e-3) %>% rownames()
 
-input_dir <- "./pythoncodes/inputs"
+input_dir <- "./inputs"
 Prepare_Input_New(SeuratObj, target_type, TGs = TG_used, CCC_results = LR_original, RecTFDB, TFTGDB, data_dir = input_dir,
                   assay = "RNA", datatype = "scale.data", exp_threshold = 0.05, CCC_threshold = 0.05)
 ```
@@ -78,7 +79,7 @@ Run the HGNN module:
 ```
 args.project <- "COVID" # The name of the project, e.g., the dataset, or any other name you prefer
 conda_env <- "SigXTalk_py" # The conda environment that is previously installed to train the hypergraph neural network
-python_script <- "./pythoncodes/main_new.py" # The realtive path of the python script
+python_script <- "./main.py" # The realtive path of the python script
 args <- c("--project", args.project, "--target_type",target_type)
 system2("conda", args = c("run", "-n", conda_env, "python", python_script, args))
 ```
@@ -127,6 +128,7 @@ CellChat::netVisual_circle(LR_original@net$weight, vertex.weight = groupSize, we
                  label.edge= F, title.name = "Interaction weights/strength",
                  vertex.label.cex = 2)
 ```
+For more visualization of the cell-cell communication network, please visit CellChat's tutorial: [link](https://github.com/jinworks/CellChat).
 Ligand-Receptor pairs targeting the receiver
 ```
 CCC_threshold <- 0.1

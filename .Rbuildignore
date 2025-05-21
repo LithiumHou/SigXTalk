@@ -1,6 +1,8 @@
 ^SigXTalkR\.Rproj$
 ^\.Rproj\.user$
 ^\.git$
+^\.jpg$
+^\.gitignore$
 ^datasets/
 ^pythoncodes/
 ^vignettes/
@@ -8,3 +10,4 @@
 ^README\.md
 ^LICENSE
 ^LICENSE\.md$
+^\.DS_Store$
