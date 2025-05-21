@@ -18,7 +18,7 @@ SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scal
 Usually, the installation of the SigXTalk and other necessary dependencies could be finished in several minutes.
 
 
-### Installation of the SigXTalk R package (REQUIRED)
+### Installation of the SigXTalk R package 
 R >= 4.1.1 is required to correctly install SigXTalk and other dependencies. All necessary dependencies will be automatically installed when installing the SigXTalk R package. 
 To install the SigXTalk R package, run the following command in R:
 ```
@@ -26,41 +26,41 @@ remotes::install_github("LithiumHou/SigXTalk")
 ```
 * CellChat is one of the non-CRAN dependencies required by SigXTalk. If you encounter any issue while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting.
   
-### Suggested R packages for plotting (OPTIONAL)
-These packages are not necessary for performing SigXTalk algorithm, but are useful when visualizing the results!
-* ggridges 0.5.6
-* patchwork 1.2.0
-* scales 1.3.0
 
-### Installation of the SigXTalk Python code dependencies (REQUIRED)
+### Installation of the SigXTalk Python code dependencies 
 SigXTalk requires a Python module to operate correctly. We recommend that an independent python environment be created to run SigXTalk.
 ```
 conda create -n SigXTalk_py python=3.8
 conda activate SigXTalk_py
-pip install pandas==2.0.3 scikit-learn==1.3.0 scipy==1.10.1 numpy==1.24.3 argparse==1.4.0
 ```
-The Python package torch is necessary to perform the deep learning in SigXTalk, which could be run on both CUDA and CPU devices. We strongly recommend using CUDA to accelerate the training of neural network using torch.
-The installation command of torch depends on your operating system and device. If you encounter any issue, or want to know more details, please visit the [torch installation guide](https://pytorch.org/get-started/locally/).
+If you want to use your own environment, please make sure the version of your Python and its libraries are compatible. The required version of Python libraries is listed here. 
+The Python library torch is necessary to perform the deep learning in SigXTalk, which could be run on both CUDA and CPU device. We strongly recommend using CUDA (for Linux and Windows systems only) to accelerate the training of neural network using torch.
+The installation command of torch depends on your operating system and device and may cause compatibility issues (which is why we prefer a separated installation of torch instead of integrating it to the installation of other dependencies). If you encounter any issue, or want to know more details, please visit the [torch installation guide](https://pytorch.org/get-started/locally/).
 
 ```
 # On Linux or Windows
-pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
+pip install torch==1.13.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
 # On OSX
-pip install torch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1
+pip install torch==1.13.1
 ```
 If you do not have a CUDA device, you may use the CPU version of torch. However, it could be quite time-consuming.
 ```
 # On Linux or Windows
-pip install torch==1.13.1+cpu torchvision==0.14.1+cpu torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cpu
+pip install torch==1.13.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
 # On OSX
-pip install torch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1
+pip install torch==1.13.1
 ```
-Then, the dhg package is required to handle the hypergraph object:
+Then, install the SigXTalk's python dependency from GitHub: 
 ```
-pip install dhg
+# Please make sure you are still in the SigXTalk_py environment
+pip install git+https://github.com/LithiumHou/SigXTalk.git#subdirectory=pythoncodes
 ```
-
-That's it! You are now ready to perform the SigXTalk analysis.
+If the above command does not work, you may manually download the `pythoncodes` directory and run the following command
+```
+cd .../pythoncodes
+pip install .
+```
+You are all set! You are now ready to perform the SigXTalk analysis.
 
 ## Usage
 
