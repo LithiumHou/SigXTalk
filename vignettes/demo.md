@@ -80,21 +80,28 @@ Prepare_Input_New(SeuratObj, target_type, TGs = TG_used, CCC_results = LR_origin
 
 ## Run the HGNN module to infer activated pathways
 Note: Please check the name of the pre-installed python environment which contains the HGNN module. 
-Run the HGNN module:
+Set up the arguments passed to Python:
 ```
 args.project <- "PBMC" # The name of the project, e.g., the dataset, or any other name you prefer
-conda_env <- "SigXTalk_py" # The conda environment that is previously installed to train the hypergraph neural network
 python_script <- "./main.py" # The realtive path of the python script
 args <- c("--project", args.project, "--target_type",target_type)
-system2("conda", args = c("run", "-n", conda_env, "python", python_script, args))
 ```
 Note: You can try different values of hyperparameters using the command line. For example, you can set a higher learning rate by calling:
 ```
 # Optional
 args <- c("--project", args.project, "--target_type",target_type, "--lr", 0.05)
+```
+If you're using a conda environment:
+```
+conda_env <- "SigXTalk_py" # The conda environment that is previously installed to train the hypergraph neural network
 system2("conda", args = c("run", "-n", conda_env, "python", python_script, args))
 ```
-The results will be saved in the pythoncodes/outputs directory. You can also save it to other directories by directly modifying the paths in main_new.py file.
+If you're using a mamba environment:
+```
+mamba_env <- "SigXTalk_py" # The conda environment that is previously installed to train the hypergraph neural network
+system2("mamba", args = c("run", "-n", mamba_env, "python", python_script, args))
+```
+The results will be automatically saved in the `/outputs` directory. You can also save it to other directories by directly modifying the paths in `main.py` file.
 
 ## Calculate and filter the PRS
 ```
