@@ -29,7 +29,9 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install(package_list)
 
 ```
-If you install SigXTalk on Windows, you will need to install Rtools. If you did not install Rtools while installing Rplease see this [guide]
+
+### Installation of the dependencies of SigXTalk R package
+If you install SigXTalk on Windows, you will need to install Rtools. If you did not install Rtools while installing R/Rstudio, please see this [guide]
 To install the SigXTalk R package, you may either install from remote or from local.
 
 OPTION 1: remote installation. Run the following command in R:
