@@ -23,10 +23,8 @@ Imports:
 	tidyr,
 	ggplot2,
 	ggalluvial,
-	NMF,
-	assorthead,
-	BiocNeighbors,
 	circlize,
+	NMF,
 	ComplexHeatmap,
 	CellChat,
 Suggests:
@@ -36,9 +34,6 @@ Suggests:
 	patchwork,
 	scales
 Remotes:
-	LTLA/assorthead,
-	knncolle/BiocNeighbors,
-	jokergoo/circlize,
 	jokergoo/ComplexHeatmap,
 	jinworks/CellChat
 Description: What the package does (one paragraph).
