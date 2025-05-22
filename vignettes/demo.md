@@ -120,9 +120,6 @@ The crosstalk patterns could be visualized in various ways!
 ### Load packages for visualization
 ```
 library(ggplot2)
-library(circlize)
-library(ComplexHeatmap)
-library(ggalluvial)
 library(patchwork)
 ```
 ### Visualization of cell-cell communication
@@ -133,7 +130,7 @@ CellChat::netVisual_circle(LR_original@net$weight, vertex.weight = groupSize, we
                  label.edge= F, title.name = "Interaction weights/strength",
                  vertex.label.cex = 2)
 ```
-For more visualization of the cell-cell communication network, please visit CellChat's tutorial: [link](https://github.com/jinworks/CellChat).
+For more visualization of the cell-cell communication network, please visit [CellChat's tutorial](https://github.com/jinworks/CellChat).
 Ligand-Receptor pairs targeting the receiver
 ```
 CCC_threshold <- 0.1
@@ -154,19 +151,16 @@ ps$inner
 CC_pair_results <- Aggregate_Causality(results_filtered, data_type = "Target")
 Counts_pathway <- Count_Crosstalk(results_filtered, KeyGenes = NULL, data_type = "Target", verbose = F)
 TG_used <- sort(Counts_pathway, decreasing = T) %>% names()
-TG_used <- TG_used[1:15]
+TG_used <- TG_used[1:15] # Select the top-15 target genes with most crosstalk pathways
 PlotXT_RecTGHeatmap(CC_pair_results, Exp_clu, KeyTG = TG_used,topk = 100)
 ```
 
 ### Detailed crosstalk pattern of a certain target gene
 ```
-TG_used <- TG_used[1] # The target with most crosstalk pathways
-
 # Visualize using a single heatmap of PRS
-PlotXT_HeatMap(results_filtered, TG_used, "TG")
+PlotXT_HeatMap(results_filtered, TG_used[1], "TG") # The target with most crosstalk pathways
 # Visualize the flow of regulation
-PlotXT_Alluvial(results_filtered, TG_used, min_weight = 0.8) # You may adjust the min_weight parameter to display more or less pathways
+PlotXT_Alluvial(results_filtered, TG_used[1:3], min_weight = 0.8) # You may adjust the min_weight parameter to display more or less pathways
 # Visualize the fidelity and specificity of pathways
-PlotXT_FidSpe(results_filtered, TG_used, threshold = 0.01)
-
+PlotXT_FidSpe(results_filtered, TG_used[1], threshold = 0.01)
 ```
