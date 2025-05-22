@@ -8,7 +8,7 @@ library(dplyr)
 library(CellChat)
 ```
 ## Set the working directory
-The working directory is where you store the datasets, pathway information and pythoncodes. In this tutorial, we simply use the `vignettes` as the directory.
+The working directory is where you store the datasets, pathway information and python script `main.py`. In this tutorial, we simply use the `vignettes` as the directory.
 The structure of the working directory should be like the following. Here, directories `inputs` and `outputs` will be created automatically while running the script, you do not need to create them by yourself.
 
 - **work_dir/**
