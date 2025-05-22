@@ -27,7 +27,7 @@ if (!require("BiocManager", quietly = TRUE))
 
 BiocManager::install("BiocNeighbors") # This dependency is required for installing and running CellChat
 
-remotes::install_github("LithiumHou/SigXTalk")
+remotes::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "always")
 ```
 * CellChat is one of the non-CRAN dependencies required by SigXTalk. If you encounter any issue while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting.
   
