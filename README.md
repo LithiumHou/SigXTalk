@@ -22,6 +22,11 @@ Usually, the installation of the SigXTalk and other necessary dependencies could
 R >= 4.1.1 is required to correctly install SigXTalk and other dependencies. All necessary dependencies will be automatically installed when installing the SigXTalk R package. 
 To install the SigXTalk R package, run the following command in R:
 ```
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager") 
+
+BiocManager::install("BiocNeighbors") # This dependency is required for installing and running CellChat
+
 remotes::install_github("LithiumHou/SigXTalk")
 ```
 * CellChat is one of the non-CRAN dependencies required by SigXTalk. If you encounter any issue while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting.
