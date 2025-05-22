@@ -31,14 +31,19 @@ remotes::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "alwa
 ```
 * CellChat is one of the non-CRAN dependencies required by SigXTalk. If you encounter any issue while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting.
   
-
 ### Installation of the SigXTalk Python code dependencies 
 SigXTalk requires a Python module to operate correctly. We recommend that an independent python environment be created to run SigXTalk.
+If you are using conda (Anaconda or Miniconda) environments:
 ```
 conda create -n SigXTalk_py python=3.8
 conda activate SigXTalk_py
 ```
-If you want to use your own environment, please make sure the version of your Python and its libraries are compatible. The required version of Python libraries is listed here. 
+Alternatively, if you prefer mamba environments:
+```
+mamba create --name SigXTalk_py python=3.8
+mamba activate SigXTalk_py
+```
+If you want to use your own environment, please make sure the version of your Python and its libraries are compatible. The required version of Python libraries is listed below: 
 The Python library torch is necessary to perform the deep learning in SigXTalk, which could be run on both CUDA and CPU device. We strongly recommend using CUDA (for Linux and Windows systems only) to accelerate the training of neural network using torch.
 The installation command of torch depends on your operating system and device and may cause compatibility issues (which is why we prefer a separated installation of torch instead of integrating it to the installation of other dependencies). If you encounter any issue, or want to know more details, please visit the [torch installation guide](https://pytorch.org/get-started/locally/).
 
