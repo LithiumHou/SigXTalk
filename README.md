@@ -12,20 +12,24 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 
 ## Installation
 SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scaling and dim-reduction) of datasets, CCC analysis, result visualization are processed with R, while the hypergraph construction and representative learning are processed with Python. Therefore, both the R and Python environments need to be correctly setup before using SigXTalk. In short, the de-novo installation of SigXTalk contains the following steps:
+- Install the dependencies of SigXTalk R package
 - Install the SigXTalk R package
 - Create the Python environment for SigXTalk
 - Install the SigXTalk Python module
 Usually, the installation of the SigXTalk and other necessary dependencies could be finished in several minutes.
 
 
-### Installation of the SigXTalk R package 
+### Installation of the dependencies of SigXTalk R package
 R >= 4.1.1 is required to correctly install SigXTalk and other dependencies. 
-`BiocNeighbors` dependency is required for installing and running CellChat. We suggest that it be installed manually.
+Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
 ```
+package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager") 
-BiocManager::install("BiocNeighbors") # 
+BiocManager::install(package_list)
+
 ```
+If you install SigXTalk on Windows, you will need to install Rtools. If you did not install Rtools while installing Rplease see this [guide]
 To install the SigXTalk R package, you may either install from remote or from local.
 
 OPTION 1: remote installation. Run the following command in R:
