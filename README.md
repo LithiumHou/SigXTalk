@@ -61,12 +61,13 @@ pip install torch==1.13.1+cpu --extra-index-url https://download.pytorch.org/whl
 pip install torch==1.13.1
 ```
 Then, install the SigXTalk's python dependency from GitHub: 
-[OPTION 1] If you have `git` installed on your device, you may install it remotely:
+
+OPTION 1： If you have `git` installed on your device, you may install it remotely:
 ```
 # Please make sure you are still in the SigXTalk_py environment
 pip install git+https://github.com/LithiumHou/SigXTalk.git#subdirectory=pythoncodes
 ```
-[OPTION 2] If the above command does not work, you may manually clone the `pythoncodes` directory to your device and run the following command:
+OPTION 2 If the above command does not work, you may manually clone the `pythoncodes` directory to your device and run the following command:
 ```
 cd .../pythoncodes
 pip install .
