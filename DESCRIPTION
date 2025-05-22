@@ -30,9 +30,7 @@ Imports:
 Suggests:
 	forcats,
 	ggridges,
-	extrafont,
-	patchwork,
-	scales
+	extrafont
 Remotes:
 	jokergoo/ComplexHeatmap,
 	jinworks/CellChat
