@@ -131,6 +131,7 @@ The crosstalk patterns could be visualized in various ways!
 ```
 library(ggplot2)
 library(patchwork)
+library(ggalluvial)
 ```
 ### Visualization of cell-cell communication
 Overview of cell-cell communication
