@@ -25,14 +25,12 @@ Imports:
 	ggalluvial,
 	circlize,
 	NMF,
-	ComplexHeatmap,
 	CellChat,
 Suggests:
 	forcats,
 	ggridges,
 	extrafont
 Remotes:
-	jokergoo/ComplexHeatmap,
 	jinworks/CellChat
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
