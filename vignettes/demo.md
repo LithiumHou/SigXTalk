@@ -69,7 +69,10 @@ TG_used <- FindMarkers(SeuratObj, target_type, min.pct = 0.25, only.pos = T, log
 TG_used <- filter(TG_used, p_val_adj<1e-3) %>% rownames()
 
 input_dir <- "./inputs"
-dir.create(input_dir)
+if(!dir.exists(input_dir)){
+  dir.create(input_dir)
+}
+
 
 Prepare_Input_New(SeuratObj, target_type, TGs = TG_used, CCC_results = LR_original, RecTFDB, TFTGDB, data_dir = input_dir,
                   assay = "RNA", datatype = "scale.data", exp_threshold = 0.05, CCC_threshold = 0.05)
