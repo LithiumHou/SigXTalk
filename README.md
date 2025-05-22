@@ -27,6 +27,7 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("BiocNeighbors") # 
 ```
 To install the SigXTalk R package, you may either install from remote or from local.
+
 OPTION 1: remote installation. Run the following command in R:
 ```
 if (!require("devtools", quietly = TRUE))
