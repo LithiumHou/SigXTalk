@@ -40,7 +40,8 @@ if (!require("devtools", quietly = TRUE))
     install.packages("devtools") 
 devtools::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "always")
 ```
-Note: using `devtools::install_github' in Rstudio sometimes causes a github's token issue. In this case, you may need to generate a token. Please see
+Note: using `devtools::install_github' in Rstudio sometimes causes a github's token issue. In this case, you may need to generate a token. Please see [here](https://usethis.r-lib.org/articles/git-credentials.html). Alternatively, you may try local installation (see below).
+
 OPTION 2: install from local. You may download or clone the SigXTalk repository to your device and run:
 ```
 if (!require("devtools", quietly = TRUE))
