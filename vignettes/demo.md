@@ -96,7 +96,6 @@ The results will be saved in the pythoncodes/outputs directory. You can also sav
 ## Calculate and filter the PRS
 ```
 output_dir <- './outputs/'
-dir.create(output_dir)
 filen <- paste0(output_dir, args.project,'/pathways_',target_type,'.csv')
 RTFTG_results <- read.csv(filen, header = T)
 RTFTG_results <- RTFTG_results[RTFTG_results$pred_label > 0.75, ]
