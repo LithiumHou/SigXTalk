@@ -27,9 +27,8 @@ package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager") 
 BiocManager::install(package_list)
-
 ```
-
+* If you are using conda/mamba environment 
 ### Installation of the dependencies of SigXTalk R package
 If you install SigXTalk on Windows, you will need to install Rtools. If you did not install Rtools while installing R/Rstudio, please see this [guide]
 To install the SigXTalk R package, you may either install from remote or from local.
@@ -37,7 +36,7 @@ To install the SigXTalk R package, you may either install from remote or from lo
 OPTION 1: remote installation. Run the following command in R:
 ```
 if (!require("devtools", quietly = TRUE))
-    install.packages("devtools") 
+    install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
 devtools::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "always")
 ```
 Note: using `devtools::install_github' in Rstudio sometimes causes a github's token issue. In this case, you may need to generate a token. Please see [here](https://usethis.r-lib.org/articles/git-credentials.html). Alternatively, you may try local installation (see below).
