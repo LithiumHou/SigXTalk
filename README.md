@@ -36,7 +36,7 @@ BiocManager::install(package_list)
 conda install -c conda-forge \
   r-devtools r-ggplot2 r-svglite r-ggrepel \
   r-cowplot r-patchwork r-ggpubr r-ggnetwork r-plotly \
-  r-mass r-lattice freetype libpng libxml2 libcurl openssl libuv cmake
+  r-mass r-lattice freetype libpng libxml2 libcurl openssl libuv cmake 
 # If you are using mamba, simply replace 'conda' with 'mamba' (but keep 'conda-forge' unchanged)
 ``` 
 ### Installation of the dependencies of SigXTalk R package
