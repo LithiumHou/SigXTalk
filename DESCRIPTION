@@ -25,6 +25,7 @@ Imports:
 	ggalluvial,
 	circlize,
 	NMF,
+	Matrix,
 	presto,
 	CellChat,
 Suggests:
@@ -32,6 +33,7 @@ Suggests:
 	ggridges,
 	extrafont
 Remotes:
+	url::https://cran.r-project.org/src/contrib/Archive/Matrix/Matrix_1.6-4.tar.gz,
 	immunogenomics/presto,
 	jinworks/CellChat
 Description: The R package to analyze potential crosstalk between multiple regulatory pathways induced by cell-cell communication (CCC).
