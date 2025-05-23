@@ -31,7 +31,7 @@ BiocManager::install(package_list)
 * If you are using R within a conda/mamba environment (especially if R is newly installed), the installation of dependencies (especially Seurat and CellChat) may become quite time-consuming and even annoying. You need to install additional libraries using command lines (not in R) before installing the dependencies:
 ```
 conda install -c conda-forge \
-  r-ggplot2 r-nmf r-ggalluvial r-svglite r-ggrepel \
+  r-devtools r-ggplot2 r-svglite r-ggrepel \
   r-cowplot r-patchwork r-ggpubr r-ggnetwork r-plotly \
   r-mass r-lattice freetype libpng libxml2 libcurl openssl libuv cmake
 # If you are using mamba, simply replace 'conda' with 'mamba' (but keep 'conda-forge' unchanged)
