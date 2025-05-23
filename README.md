@@ -28,7 +28,14 @@ if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager") 
 BiocManager::install(package_list)
 ```
-* If you are using conda/mamba environment 
+* If you are using R within a conda/mamba environment (especially if R is newly installed), the installation of dependencies (especially Seurat and CellChat) may become quite time-consuming and even annoying. You need to install additional libraries using command lines (not in R) before installing the dependencies:
+```
+conda install -c conda-forge \
+  r-ggplot2 r-nmf r-ggalluvial r-svglite r-ggrepel \
+  r-cowplot r-patchwork r-ggpubr r-ggnetwork r-plotly \
+  r-mass r-lattice freetype libpng libxml2 libcurl openssl libuv cmake
+# If you are using mamba, simply replace 'conda' with 'mamba' (but keep 'conda-forge' unchanged)
+``` 
 ### Installation of the dependencies of SigXTalk R package
 If you install SigXTalk on Windows, you will need to install Rtools. If you did not install Rtools while installing R/Rstudio, please see this [guide]
 To install the SigXTalk R package, you may either install from remote or from local.
@@ -48,7 +55,12 @@ if (!require("devtools", quietly = TRUE))
 devtools::install("/path/to/SigXTalk") # Replace it with the path where you store the SigXTalk repository
 ```
 * CellChat is one of the non-CRAN dependencies required by SigXTalk. If you encounter any issue while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting.
-  
+* If you encounter error when installing Seurat & CellChat, it's highly possible that the package `Matrix` is not installed correctly. Please try:
+```
+install.packages("https://cran.r-project.org/src/contrib/Archive/Matrix/Matrix_1.6-4.tar.gz")
+```
+and then try `devtools::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "always")` again.
+
 ### Installation of the SigXTalk Python code dependencies 
 SigXTalk requires a Python module to operate correctly. We strongly recommend that an independent python environment be created to run SigXTalk.
 If you are using conda (Anaconda or Miniconda) environments:
