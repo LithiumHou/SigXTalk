@@ -12,11 +12,11 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 
 ## Installation
 SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scaling and dim-reduction) of datasets, CCC analysis, result visualization are processed with R, while the hypergraph construction and representative learning are processed with Python. Therefore, both the R and Python environments need to be correctly setup before using SigXTalk. In short, the de-novo installation of SigXTalk contains the following steps:
-- Install the dependencies of SigXTalk R package
-- Install the SigXTalk R package
-- Create the Python environment for SigXTalk
-- Install the SigXTalk Python module
-Usually, the installation of the SigXTalk and other necessary dependencies could be finished in several minutes.
+- Installation of the dependencies of SigXTalk R package
+- Installation of the SigXTalk R package
+- Installation of the SigXTalk Python module
+For users with experience on scRNA-seq data analysis using R (especially Seurat), the installation of the SigXTalk and other necessary dependencies could be finished in several minutes. However, the de-novo installation (starting from a vanilla R without any external libraries) of SigXTalk R package could be quite time-consuming as every dependency needs a series of Runtime libraries. It may take up to ~30 minutes to get everything done from the very beginning (especially for R within conda environments under Linux system).
+The installation of the SigXTalk Python module, from creating the conda environment, could be finished in ~5 minutes.
 
 
 ### Installation of the dependencies of SigXTalk R package
@@ -39,7 +39,7 @@ conda install -c conda-forge \
   r-mass r-lattice freetype libpng libxml2 libcurl openssl libuv cmake 
 # If you are using mamba, simply replace 'conda' with 'mamba' (but keep 'conda-forge' unchanged)
 ``` 
-### Installation of the dependencies of SigXTalk R package
+### Installation of the SigXTalk R package
 If you install SigXTalk on Windows, you will need to install Rtools. If you did not install Rtools while installing R/Rstudio, please see this [guide]
 To install the SigXTalk R package, you may either install from remote or from local.
 
@@ -62,7 +62,7 @@ install.packages("https://cran.r-project.org/src/contrib/Archive/Matrix/Matrix_1
 ```
 and then try `devtools::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "always")` again.
 
-### Installation of the SigXTalk Python code dependencies 
+### Installation of the SigXTalk Python module 
 SigXTalk requires a Python module to operate correctly. We strongly recommend that an independent python environment be created to run SigXTalk.
 If you are using conda (Anaconda or Miniconda) environments:
 ```
