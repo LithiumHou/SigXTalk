@@ -16,12 +16,13 @@ SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scal
 - Installation of the SigXTalk R package
 - Installation of the SigXTalk Python module
 
-For users with experience on scRNA-seq data analysis using R (especially Seurat), the installation of the SigXTalk and other necessary dependencies could be finished in several minutes. However, the de-novo installation (starting from a vanilla R without any external libraries) of SigXTalk R package could be quite time-consuming as every dependency needs a series of Runtime libraries. It may take up to ~30 minutes to get everything done from the very beginning (especially for R within conda environments under Linux system).
+If Seurat and/or CellChat have already been installed, the installation of the SigXTalk and other necessary dependencies could be finished in several minutes. However, the de-novo installation (starting from a vanilla R without any external libraries) of SigXTalk R package could be quite time-consuming as every dependency needs a series of Runtime libraries. It may take up to ~30 minutes to get everything done from the very beginning (especially for R within conda environments under Linux system).
 The installation of the SigXTalk Python module, from creating the conda environment, could be finished in ~5 minutes.
 
 
 ### Installation of the dependencies of SigXTalk R package
 R >= 4.1.1 is required to correctly install SigXTalk and other dependencies. 
+For Windows users: if you haven't installed Rtools (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
 Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
 ```
 if (!require("devtools", quietly = TRUE))
@@ -57,11 +58,6 @@ if (!require("devtools", quietly = TRUE))
 devtools::install("/path/to/SigXTalk") # Replace it with the path where you store the SigXTalk repository
 ```
 * CellChat is one of the non-CRAN dependencies required by SigXTalk. If you encounter any issue while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting.
-* If you encounter error when installing Seurat & CellChat, it's highly possible that the package `Matrix` is not installed correctly. Please try:
-```
-install.packages("https://cran.r-project.org/src/contrib/Archive/Matrix/Matrix_1.6-4.tar.gz")
-```
-and then try `devtools::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "always")` again.
 
 ### Installation of the SigXTalk Python module 
 SigXTalk requires a Python module to operate correctly. We strongly recommend that an independent python environment be created to run SigXTalk.
