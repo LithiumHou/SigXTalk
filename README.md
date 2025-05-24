@@ -42,7 +42,6 @@ BiocManager::install(package_list)
 
 </details>
 
-
 <details>
 <summary> MacOS users </summary>
   
@@ -138,8 +137,9 @@ However, there may still be libraries that you need to install manually :(.
 
 ### Installation of the SigXTalk R package
 To install the SigXTalk R package, you may either install from remote or from local.
+
 <details>
-  <summary>OPTION 1: remote installation</summary>
+<summary>OPTION 1: remote installation</summary>
 
 Run the following command in R:
 
@@ -148,11 +148,10 @@ devtools::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "alw
 ```
 
 Note: using `devtools::install_github` in Rstudio sometimes causes a github's token issue. In this case, you may need to generate a token. Please see [here](https://usethis.r-lib.org/articles/git-credentials.html). Alternatively, you may try local installation (see below).
-
 <\details>
 
 <details>
-  <summary>OPTION 2: install from local</summary>
+<summary>OPTION 2: install from local</summary>
 You may download or clone the SigXTalk repository to your device and run:
   
 ```R
