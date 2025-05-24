@@ -30,7 +30,7 @@ The installation of R dependencies may vary across different operating systems. 
 If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
 Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
   
-```R
+```r
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
 
@@ -46,7 +46,7 @@ BiocManager::install(package_list)
 <details>
 <summary> MacOS users </summary>
   
-```R
+```r
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
 
