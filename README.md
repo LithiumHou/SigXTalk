@@ -31,13 +31,13 @@ The installation of R dependencies may vary across different operating systems. 
 If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools).
   
 ```r
-if (!require("devtools", quietly = TRUE))
-    install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
+package_list1 <- c("xfun","devtools","miniUI", "shiny", "httpuv", "htmltools")
+install.packages(package_list1)  # If you haven't installed devtools before, it may take several minutes.
 
-package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
+package_list2 <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager") 
-BiocManager::install(package_list)
+BiocManager::install(package_list2)
 ```
 
 </details>
