@@ -26,24 +26,11 @@ Some dependencies are required for installing and running CellChat/SigXTalk but 
 The installation of R dependencies may vary across different operating systems. Please check the corresponding guide that matches your system.
 
 <details>
-  <summary>If you use R on Windows</summary>
+<summary> Windows users </summary>
 If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
 Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
-  ```
-  if (!require("devtools", quietly = TRUE))
-      install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
   
-  package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
-  if (!require("BiocManager", quietly = TRUE))
-      install.packages("BiocManager") 
-  BiocManager::install(package_list)
-  ```
-</details>
-```
-
-<details>
-  <summary>MacOS users</summary>
-```
+``` R
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
 
@@ -54,31 +41,101 @@ BiocManager::install(package_list)
 ```
 
 </details>
-```
+
+
 <details>
-  <summary>Windows users</summary>
-If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
-Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
-  ```
-  if (!require("devtools", quietly = TRUE))
-      install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
+<summary> MacOS users </summary>
   
-  package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
-  if (!require("BiocManager", quietly = TRUE))
-      install.packages("BiocManager") 
-  BiocManager::install(package_list)
-  ```
-</details>
+``` R
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
+
+package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager") 
+BiocManager::install(package_list)
 ```
 
-* If you are using R within a conda/mamba environment (especially if R is newly installed), the installation of dependencies (especially Seurat and CellChat) may become quite time-consuming and even annoying. You need to install additional libraries using command lines (not in R) before installing the dependencies:
-```
+Sometimes, you may need XQuartz for the installation. If such error occurs, please visit [here](https://www.xquartz.org/) to install XQuartz. After that, restart R and try the above code again.
+</details>
+
+<details>
+  <summary>Linux users WITH conda/mamba environment</summary>
+If you use R inside a conda/mamba environment, you need to install additional libraries using command lines (not in R) before installing the dependencies:
+
+``` bash
 conda install -c conda-forge \
   r-devtools r-ggplot2 r-svglite r-ggrepel \
   r-cowplot r-patchwork r-ggpubr r-ggnetwork r-plotly \
   r-mass r-lattice freetype libpng libxml2 libcurl openssl libuv cmake 
-# If you are using mamba, simply replace 'conda' with 'mamba' (but keep 'conda-forge' unchanged)
-``` 
+# If you are using mamba, simply replace 'conda install' with 'mamba install' (but keep 'conda-forge' unchanged)
+```
+
+After that, enter R and run the following to install the dependencies:
+
+``` R
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
+
+package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager") 
+BiocManager::install(package_list)
+```
+</details>
+
+<details>
+  <summary>Linux users WITHOUT conda/mamba environment</summary>
+We strongly suggest that you use R within a conda/mamba environment! You can easily run the following command to install R inside a new conda environment:
+
+``` bash
+conda create -n my_r_env r-base r-devtools
+conda activate my_r_env
+```
+
+Then, you may refer to the installation guide for Linux users WITH conda/mamba environment
+If you are using a system R (not in a conda/mamba environment), it would be quite troublesome to install various libraries.
+For Ubuntu/Debian users:
+
+``` bash
+sudo apt update
+sudo apt install -y \
+  libfreetype6-dev \
+  libpng-dev \
+  libxml2-dev \
+  libcurl4-openssl-dev \
+  libssl-dev \
+  libuv1-dev \
+  cmake
+```
+
+For CentOS users:
+```bash
+sudo dnf install -y \
+  freetype-devel \
+  libpng-devel \
+  libxml2-devel \
+  libcurl-devel \
+  openssl-devel \
+  libuv-devel \
+  cmake
+```
+After that, enter R and run the following to install the dependencies:
+
+``` R
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
+
+package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager") 
+BiocManager::install(package_list)
+install.packages("ragg")
+install.packages("svglite")
+```
+However, there may still be libraries that you need to install manually :(.
+</details>
+
 ### Installation of the SigXTalk R package
 If you install SigXTalk on Windows, you will need to install Rtools. If you did not install Rtools while installing R/Rstudio, please see this [guide]
 To install the SigXTalk R package, you may either install from remote or from local.
