@@ -31,7 +31,7 @@ The installation of R dependencies may vary across different operating systems. 
 If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools).
   
 ```r
-install.packages(c("devtools","miniUI"))  # If you haven't installed devtools before, it may take several minutes.
+install.packages(c("devtools", "shiny", "httpuv", "htmltools"))  # If you haven't installed devtools before, it may take several minutes.
 
 package_list2 <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
 if (!require("BiocManager", quietly = TRUE))
