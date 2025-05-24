@@ -15,6 +15,7 @@ SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scal
 - Installation of the dependencies of SigXTalk R package
 - Installation of the SigXTalk R package
 - Installation of the SigXTalk Python module
+
 For users with experience on scRNA-seq data analysis using R (especially Seurat), the installation of the SigXTalk and other necessary dependencies could be finished in several minutes. However, the de-novo installation (starting from a vanilla R without any external libraries) of SigXTalk R package could be quite time-consuming as every dependency needs a series of Runtime libraries. It may take up to ~30 minutes to get everything done from the very beginning (especially for R within conda environments under Linux system).
 The installation of the SigXTalk Python module, from creating the conda environment, could be finished in ~5 minutes.
 
