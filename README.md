@@ -42,6 +42,7 @@ BiocManager::install(package_list)
 
 </details>
 
+
 <details>
 <summary> MacOS users </summary>
   
@@ -137,9 +138,8 @@ However, there may still be libraries that you need to install manually :(.
 
 ### Installation of the SigXTalk R package
 To install the SigXTalk R package, you may either install from remote or from local.
-
 <details>
-<summary>OPTION 1: remote installation</summary>
+  <summary>OPTION 1: remote installation</summary>
 
 Run the following command in R:
 
@@ -148,10 +148,11 @@ devtools::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "alw
 ```
 
 Note: using `devtools::install_github` in Rstudio sometimes causes a github's token issue. In this case, you may need to generate a token. Please see [here](https://usethis.r-lib.org/articles/git-credentials.html). Alternatively, you may try local installation (see below).
-<\details>
+
+</details>
 
 <details>
-<summary>OPTION 2: install from local</summary>
+  <summary>OPTION 2: install from local</summary>
 You may download or clone the SigXTalk repository to your device and run:
   
 ```R
@@ -160,7 +161,7 @@ if (!require("devtools", quietly = TRUE))
 devtools::install("/path/to/SigXTalk") # Replace it with the path where you store the SigXTalk repository
 ```
 
-<\details>
+</details>
 
 ### Installation of the SigXTalk Python module 
 SigXTalk requires a Python module to operate correctly. We strongly recommend that an independent python environment (either conda or mamba) be created to run SigXTalk.
@@ -179,19 +180,29 @@ If you want to use your existing environment, please make sure the version of yo
 The Python library torch is necessary to perform the deep learning in SigXTalk, which could be run on both CUDA and CPU device. We strongly recommend using CUDA (for Linux and Windows systems only) to accelerate the training of neural network using torch.
 The installation command of torch depends on your operating system and device and may cause compatibility issues (which is why we prefer a separated installation of torch instead of integrating it to the installation of other dependencies). If you encounter any issue, or want to know more details, please visit the [torch installation guide](https://pytorch.org/get-started/locally/).
 
-```
-# On Linux or Windows
+<details>
+<summary>If you have CUDA device</summary>
+  
+```bash
+# On Linux or Windows only
 pip install torch==1.13.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
-# On OSX
-pip install torch==1.13.1
 ```
-If you do not have a CUDA device, you may use the CPU version of torch. However, it could be quite time-consuming.
-```
+
+</details>
+
+<details>
+<summary>If you are using CPU</summary>
+If you do not have a CUDA device (especially for MacOS users), you have to use the CPU version of torch. However, it could be a little bit more time-consuming.
+  
+```bash
 # On Linux or Windows
 pip install torch==1.13.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
 # On OSX
 pip install torch==1.13.1
 ```
+
+</details>
+
 Then, install the SigXTalk's python dependency from GitHub: 
 
 OPTION 1： If you have `git` installed on your device, you may install it remotely:
@@ -227,6 +238,3 @@ A step-by-step tutorial to show the functionality of SigXTalk could be viewed [h
 
 ## License
 SigXTalk is licensed under the MIT License.
-
-
-
