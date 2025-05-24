@@ -6,8 +6,8 @@ This directory contains the code and resources of the following paper:
 
 ## Introduction
 SigXTalk is a deep learning-based computational method to analyze potential crosstalk between multiple regulatory pathways induced by cell-cell communication (CCC). Based on single-cell transcriptomic data and prior knowledge of gene-gene interaction, SigXTalk employs a specialized hypergraph learning framework to identify the crosstalk pathways and further measure their fidelity and specificity using tree-based machine learning approaches. Specifically, SigXTalk aims to:
--	identify the regulatory pathways that are activated by CCC signals, using a specialized hypergraph learning approach. Among the activated pathways, the pathways with shared signals, intermediate regulators or targets are identified as crosstalk pathways;
--	estimate the regulatory strength of each activated pathway using a tree-based machine learning method; and 
+- identify the regulatory pathways that are activated by CCC signals, using a specialized hypergraph learning approach. Among the activated pathways, the pathways with shared signals, intermediate regulators or targets are identified as crosstalk pathways;
+- estimate the regulatory strength of each activated pathway using a tree-based machine learning method; and 
 - measure the regulatory selectivity between signals and targets, by introducing the concept of pathway fidelity and specificity.
 
 ## Installation
@@ -21,8 +21,12 @@ The installation of the SigXTalk Python module, from creating the conda environm
 
 
 ### Installation of the dependencies of SigXTalk R package
-R >= 4.1.1 is required to correctly install SigXTalk and other dependencies. 
-For Windows users: if you haven't installed Rtools (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
+R >= 4.1.1 is required to correctly install SigXTalk and other dependencies.
+Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
+The installation of R dependencies may vary across different operating systems. Please check the corresponding guide that matches your system.
+<details>
+  <summary>If you use R on Windows</summary>
+If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
 Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
 ```
 if (!require("devtools", quietly = TRUE))
@@ -33,6 +37,22 @@ if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager") 
 BiocManager::install(package_list)
 ```
+</details>
+|
+<details>
+  <summary>If you use R on MacOS</summary>
+
+```
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
+
+package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager") 
+BiocManager::install(package_list)
+```
+</details>
+
 * If you are using R within a conda/mamba environment (especially if R is newly installed), the installation of dependencies (especially Seurat and CellChat) may become quite time-consuming and even annoying. You need to install additional libraries using command lines (not in R) before installing the dependencies:
 ```
 conda install -c conda-forge \
