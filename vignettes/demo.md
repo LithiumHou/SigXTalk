@@ -8,11 +8,10 @@ library(dplyr)
 library(CellChat)
 ```
 ## Set the working directory
-The working directory is where you store the datasets, pathway information and python script `main.py`. In this tutorial, we simply use the `vignettes` as the directory.
+The working directory is where you store the dataset and python script `main.py`. In this tutorial, we simply use the `vignettes` as the directory.
 The structure of the working directory should be like the following. Here, directories `inputs` and `outputs` will be created automatically while running the script, you do not need to create them by yourself.
 
 - **work_dir/**
-  - **pathways/**
   - **inputs/**
   - **outputs/**
   - **main.py**
@@ -29,12 +28,12 @@ The PBMC dataset (SigXTalk_demo_data.rds) is avaliable [here](https://drive.goog
 SeuratObj <- readRDS("./SigXTalk_demo_data.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
 ```
-Note: the example data imported here has been processed using the R script [here](Process_pbmc.R). For a full turotial on how to process raw data with Seurat, visit [Seurat's tutorial for pbmc3k data](https://satijalab.org/seurat/articles/pbmc3k_tutorial).
+Note: the example data imported here has been processed using the R script [here](Process_pbmc.R). For a full turotial on how to process raw data with Seurat, visit [Seurat's tutorial for pbmc3k data](https://satijalab.org/seurat/articles/pbmc3k_tutorial). Here is a quick start for process your data:
 ```
 # DO NOT run for this tutorial
 # Pre-process the data starting from the expression matrix
 # No quality control is performed here. Please see Seurat's tutorial for details on filtering out low-quality cells. 
-SeuratObj <- CreateSeuratObject(expression)
+SeuratObj <- CreateSeuratObject(expression) # Create a Seurat object from the count matrix
 SeuratObj[["percent.mt"]] <- PercentageFeatureSet(SeuratObj, pattern = "^MT-")
 SeuratObj <- SeuratObj %>% NormalizeData() %>% FindVariableFeatures() 
 SeuratObj <- ScaleData(SeuratObj, features = rownames(SeuratObj), vars.to.regress = "percent.mt")
@@ -43,16 +42,18 @@ SeuratObj <- RunPCA(SeuratObj) %>% RunUMAP(dims = 1:10)
 If you want to use your own dataset, please make sure the dataset is stored as a Seurat Object. The data needs to be normalized, scaled and well-annotated (as above).
 
 ## Visualize the data (OPTIONAL)
-You may visualize the data using UMAP
+You may visualize the data using UMAP:
 ```
 DimPlot(SeuratObj, reduction = "umap", pt.size = 1)
 ```
 
 ## Load and filter the prior database
-The databases could be accessed in the /pathways directory in the GitHub repo.
+The databases could be easily accessed using SigXTalk's built-in data.
 ```
-RecTFDB <- readRDS("./pathways/RTF_human.rds") %>% distinct(from, to, .keep_all = T) %>% Filter_DB(rownames(SeuratObj@assays$RNA$data))
-TFTGDB <- readRDS("./pathways/TFT_human.rds") %>% distinct(from, to, .keep_all = T) %>% Filter_DB(rownames(SeuratObj@assays$RNA$data))
+data("RTF_human")
+data("TFT_human")
+RecTFDB <- RTF_human %>% distinct(from, to, .keep_all = T) %>% Filter_DB(rownames(SeuratObj@assays$RNA$data))
+TFTGDB <- TFT_human %>% distinct(from, to, .keep_all = T) %>% Filter_DB(rownames(SeuratObj@assays$RNA$data))
 ```
 
 ## Infer the cell-cell communication using CellChat
@@ -82,25 +83,28 @@ Prepare_Input_New(SeuratObj, target_type, TGs = TG_used, CCC_results = LR_origin
 Note: Please check the name of the pre-installed python environment which contains the HGNN module. 
 Set up the arguments passed to Python:
 ```
-args.project <- "PBMC" # The name of the project, e.g., the dataset, or any other name you prefer
+args.project <- "PBMC" # The name of the project, e.g., the dataset, or any other name you like
 python_script <- "./main.py" # The realtive path of the python script
 args <- c("--project", args.project, "--target_type",target_type)
 ```
-Note: You can try different values of hyperparameters using the command line. For example, you can set a higher learning rate by calling:
+Note: You may try different values of hyperparameters using the command line. For example, you can set a higher learning rate by calling:
 ```
 # Optional
 args <- c("--project", args.project, "--target_type",target_type, "--lr", 0.05)
 ```
-If you're using a conda environment:
+Next, we need to run the python script `main.py`. If you're using a conda environment:
 ```
 conda_env <- "SigXTalk_py" # The conda environment that is previously installed to train the hypergraph neural network
-system2("conda", args = c("run", "-n", conda_env, "python", python_script, args))
+Run_py_script(python_script, conda_env, args)
 ```
-If you're using a mamba environment:
+
+If you're using a mamba environment, you need to tell `reticulate` package to use a mamba environment as if it is a conda environment. Here, you could find the path to mamba by calling `where mamba` in the command line.
 ```
-mamba_env <- "SigXTalk_py" # The conda environment that is previously installed to train the hypergraph neural network
-system2("mamba", args = c("run", "-n", mamba_env, "python", python_script, args))
+conda_binary("/path/to/mamba")
+mamba_env <- "SigXTalk_py" # The mamba environment that is previously installed to train the hypergraph neural network
+Run_py_script(python_script, mamba_env, args)
 ```
+
 The results will be automatically saved in the `/outputs` directory. You can also save it to other directories by directly modifying the paths in `main.py` file.
 
 ## Calculate and filter the PRS
@@ -121,7 +125,7 @@ results_filtered <- filter(ress, Weight > 0.01*max(ress$Weight))
 ## Save the results (optional)
 ```
 filen <- paste0(output_dir, args.project,'/results_',target_type,'.csv')
-write.table(results_filtered,file = filen, quote = F, sep = ",")
+write.table(results_filtered,file = filen, quote = F, sep = ",",row.names = F)
 ```
 
 ## Visualize the results

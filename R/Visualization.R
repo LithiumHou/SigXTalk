@@ -20,6 +20,7 @@ PlotCCI_ChordPlot <- function(result, topk = 10) {
   return(chordp)
 }
 
+
 #' Visualize the Ligand-Receptor Interaction (LRI) using the circlized diagram
 #'
 #' @param result The LR pair probability extracted from the Extract_LR_Prob() function
@@ -73,6 +74,7 @@ PlotCCI_CirclePlot <- function(result, topk = 10) {
   return(gg)
 }
 
+
 #' Show how many xtalk modules in the dataset
 #'
 #' @param CC_results The dataframe of PRS values.
@@ -124,6 +126,7 @@ PlotXT_Counts <- function(CC_results, KeyGenes = NULL, data_type = "Target", top
     theme(legend.position = "none")
   return(list(outer = p1, inner = p2))
 }
+
 
 #' The heatmap showing the TRS of signal-target pairs
 #'
@@ -188,6 +191,7 @@ PlotXT_RecTGHeatmap <- function(CC_pair_results, Exp_clu, KeyTG, topk = 25) {
   return(p1 / p2)
 }
 
+
 #' The river plot showing how the regulation flows
 #'
 #' @param CC_results The dataframe of PRS values.
@@ -197,10 +201,6 @@ PlotXT_RecTGHeatmap <- function(CC_pair_results, Exp_clu, KeyTG, topk = 25) {
 #' @export
 #'
 PlotXT_Alluvial <- function(CC_results, KeyTG, min_weight = 0.45) {
-  if (!requireNamespace("ggalluvial", quietly = TRUE)) {
-    message("Installing ggalluvial package for plotting")
-    install.packages("ggalluvial")
-  }
 
   CC_used <- CC_results %>% dplyr::filter(Target %in% KeyTG)
   threshold <- quantile(CC_used$Weight, min_weight)
@@ -217,8 +217,8 @@ PlotXT_Alluvial <- function(CC_results, KeyTG, min_weight = 0.45) {
     )
   ) +
     coord_flip() +
-    ggalluvial::geom_alluvium(aes(fill = Target), width = 0.2, reverse = T) +
-    ggalluvial::geom_stratum(alpha = .3, width = 0.2) +
+    geom_alluvium(aes(fill = Target), width = 0.2, reverse = T) +
+    geom_stratum(alpha = .3, width = 0.2) +
     geom_text(
       stat = "stratum",
       aes(label = after_stat(stratum)), cex = 6
@@ -300,6 +300,7 @@ PlotXT_FidSpe <- function(CC_results, KeyTG, threshold = 0.15) {
   return(p)
 }
 
+
 #' The heatmap of PRS values for a given gene that is shared
 #' @param CC_results The dataframe of PRS values.
 #' @param gene_used The gene that is shared by pathways.
@@ -310,7 +311,7 @@ PlotXT_FidSpe <- function(CC_results, KeyTG, threshold = 0.15) {
 #' @export
 #'
 PlotXT_HeatMap <- function(CC_results, gene_used, genetype, topk = 25){
-  
+
   requireNamespace("ComplexHeatmap", quietly = TRUE)
   requireNamespace("grid")
   if(genetype == "Target" | genetype == "TG"){
@@ -386,6 +387,7 @@ PlotXT_HeatMap <- function(CC_results, gene_used, genetype, topk = 25){
   return(p)
 }
 
+
 #' The ridgeline plot of the distribution of fidelity
 #' @param CC_results The dataframe of PRS values.
 #' @param KeyTG The target gene to be visualized.
@@ -421,6 +423,7 @@ PlotXT_Ridgeline <- function(CC_results, KeyTG){
 
   return(p)
 }
+
 
 #' The circulized bar charts of the specificity of Top-k specific targets for different conditions or signals
 #' @param df The specificity dataframe
@@ -511,6 +514,7 @@ PlotXT_MultiCircularBar <- function(df, KeyFactors = NULL, topk = 5, label_max =
   return(p)
 }
 
+
 #' The chord diagram of PRS/fidelity/specificity values for a given gene that is shared
 #' @param mat The matrix of PRS/fidelity/specificity values. Direction: columns to rows
 #' @param orders The order of the genes. By default, orders <- c(rownames(mat), colnames(mat))
@@ -520,7 +524,7 @@ PlotXT_MultiCircularBar <- function(df, KeyFactors = NULL, topk = 5, label_max =
 #' @export
 #'
 PlotXT_Chord <- function(mat, orders = NULL,edge_colors = NULL){
-  
+
   if(is.null(orders)){
     orders <- c(rownames(mat), colnames(mat))
   }

@@ -147,7 +147,7 @@ FindRegulator <- function(DB, exp, selected_genes = NULL,pv_threshold = 1) {
 #' @param CCC_results The Cellchat object.
 #' @param RTFDB The receptor-TF database.
 #' @param TFTGDB The TF-TG database.
-#' @param data_dir The output directory of this function
+#' @param data_dir The output directory of this function, which is also the input directory of the HGNN+ module.
 #' @param assay The assay of the Seurat Object to use. By default use the "RNA" assay.
 #' @param datatype The datatype of the assay. By default use the "scale.data".
 #' @param exp_threshold The threshold for filtering out the low-expression genes.
@@ -164,13 +164,17 @@ FindRegulator <- function(DB, exp, selected_genes = NULL,pv_threshold = 1) {
 #' @export
 #' @examples
 #' \donttest{
-#' Prepare_Input_New <- function(SeuratObj, target_type, TGs, CCC_results, RTFDB, TFTGDB, data_dir)
+#' Prepare_Input <- function(SeuratObj, target_type, TGs, CCC_results, RTFDB, TFTGDB, data_dir)
 #' }
-Prepare_Input_New <- function(
+Prepare_Input <- function(
     SeuratObj, target_type, TGs, CCC_results, RTFDB, TFTGDB, data_dir,
     assay = "RNA", datatype = "scale.data",
     exp_threshold = 0.1, CCC_threshold = 0.05, Fisher_threshold = 1, species = "human") {
-
+  
+  if(!dir.exists(data_dir)){
+    dir.create(data_dir)
+  }
+  
   # Pre-process the expression matrix
   message("Getting the expression matrix ... \n")
   Exp_clu <- Get_Exp_Clu(SeuratObj, clusterID = target_type, assay = assay, datatype = datatype, cutoff = exp_threshold)

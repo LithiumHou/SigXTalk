@@ -133,28 +133,6 @@ Extract_LR_Prob <- function(result, source_type = NULL, target_type = NULL, pv_t
   return(Pairprob_sum)
 }
 
-
-#' Filter the prior database using genes expressed in the dataset
-#'
-#' @param DB The raw prior database, whose first two columns contain the "from" and "to" genes, respectively
-#' @param allgenes All the expressed genes in the dataset.
-#' @return The filtered database.
-#' @export
-#'
-Filter_DB <- function(DB, allgenes) {
-
-  DB_new <- DB[, 1:2]
-  colnames(DB_new) <- c("From", "To")
-  selfregu <- which(DB[, 1] == DB[, 2])
-  if (!is_empty(selfregu)) {
-    DB_new <- DB_new[-selfregu, ]
-  }
-  DB_new <- DB_new[DB_new$From %in% allgenes, ]
-  DB_new <- DB_new[DB_new$To %in% allgenes, ]
-
-  return(DB_new)
-}
-
 #' Run the fisher's exact test
 #'
 #' @param subset1 The first set of genes.
@@ -455,4 +433,41 @@ Filter_results <- function(results, PRS_thres = 0.05, remove_genes = T){
   results_filtered <- filter(results, Weight > PRS_thres*max(results$Weight))
   
   return(results_filtered)
+}
+
+#' Run a Python script with given conda environment and arguments 
+#' 
+#' @param script_path Character. Path to the Python script.
+#' @param conda_env Character. The name of the conda environment.
+#' @param args Character vector. Arguments to pass to the script (e.g., \code{c("--arg1", "value1","--arg2", "value2")}).
+#'
+#' @return No return value.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' Run_py_script(
+#'   script_path = "./main.py",
+#'   conda_env = "SigXTalk_py",
+#'   args = c("--project",args.project,"--target_type",target_type)
+#' )
+#' }
+Run_py_script <- function(script_path, conda_env, args = character()) {
+  
+  # Activate the conda environment
+  reticulate::use_condaenv(conda_env, required = TRUE)
+  
+  # Construct full sys.argv with script name as the first element
+  full_args <- c(basename(script_path), args)
+  
+  # Format as Python sys.argv assignment string
+  sys_argv_code <- sprintf(
+    "import sys; sys.argv = %s", 
+    paste0("['", paste(full_args, collapse = "', '"), "']")
+  )
+  
+  # Set sys.argv and run the Python script
+  reticulate::py_run_string(sys_argv_code)
+  reticulate::py_run_file(script_path)
+  
 }
