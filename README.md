@@ -27,8 +27,7 @@ The installation of R dependencies may vary across different operating systems. 
 
 <details>
 <summary> Windows users </summary>
-If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
-Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
+If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools).
   
 ```r
 if (!require("devtools", quietly = TRUE))
