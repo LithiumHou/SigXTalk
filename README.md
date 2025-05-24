@@ -11,7 +11,7 @@ SigXTalk is a deep learning-based computational method to analyze potential cros
 - measure the regulatory selectivity between signals and targets, by introducing the concept of pathway fidelity and specificity.
 
 ## Installation
-SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scaling and dim-reduction) of datasets, CCC analysis, result visualization are processed with R, while the hypergraph construction and representative learning are processed with Python. Therefore, both the R and Python environments need to be correctly setup before using SigXTalk. In short, the de-novo installation of SigXTalk contains the following steps:
+SigXTalk is based on R+Python. The preprocessing (filtering, normalization, scaling and dim-reduction) of datasets, CCC analysis, result visualization are processed with R, while the hypergraph construction and representative learning are processed with Python. Therefore, both the R and Python environments need to be correctly setup before using SigXTalk. In short, the installation of SigXTalk contains the following steps:
 - Installation of the dependencies of SigXTalk R package
 - Installation of the SigXTalk R package
 - Installation of the SigXTalk Python module
