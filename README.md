@@ -27,6 +27,7 @@ The installation of R dependencies may vary across different operating systems. 
 
 <details>
 <summary> Windows users </summary>
+  
 If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools).
   
 ```r
