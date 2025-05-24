@@ -137,22 +137,27 @@ However, there may still be libraries that you need to install manually :(.
 </details>
 
 ### Installation of the SigXTalk R package
-If you install SigXTalk on Windows, you will need to install Rtools. If you did not install Rtools while installing R/Rstudio, please see this [guide]
 To install the SigXTalk R package, you may either install from remote or from local.
+<details>
+  <summary>OPTION 1: remote installation</summary>
 
-OPTION 1: remote installation. Run the following command in R:
-```
+Run the following command in R:
+``` R
 devtools::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "always")
 ```
 Note: using `devtools::install_github` in Rstudio sometimes causes a github's token issue. In this case, you may need to generate a token. Please see [here](https://usethis.r-lib.org/articles/git-credentials.html). Alternatively, you may try local installation (see below).
+<\details>
 
-OPTION 2: install from local. You may download or clone the SigXTalk repository to your device and run:
-```
+<details>
+  <summary>OPTION 2: install from local</summary>
+You may download or clone the SigXTalk repository to your device and run:
+``` R
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools") 
 devtools::install("/path/to/SigXTalk") # Replace it with the path where you store the SigXTalk repository
 ```
-* CellChat is one of the non-CRAN dependencies required by SigXTalk. If you encounter any issue while installing CellChat, please visit the [CellChat homepage](https://github.com/jinworks/CellChat) for troubleshooting.
+
+<\details>
 
 ### Installation of the SigXTalk Python module 
 SigXTalk requires a Python module to operate correctly. We strongly recommend that an independent python environment be created to run SigXTalk.
