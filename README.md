@@ -30,7 +30,7 @@ The installation of R dependencies may vary across different operating systems. 
 If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
 Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
   
-``` R
+```R
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
 
@@ -46,7 +46,7 @@ BiocManager::install(package_list)
 <details>
 <summary> MacOS users </summary>
   
-``` R
+```R
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
 
@@ -63,7 +63,7 @@ Sometimes, you may need XQuartz for the installation. If such error occurs, plea
   <summary>Linux users WITH conda/mamba environment</summary>
 If you use R inside a conda/mamba environment, you need to install additional libraries using command lines (not in R) before installing the dependencies:
 
-``` bash
+```bash
 conda install -c conda-forge \
   r-devtools r-ggplot2 r-svglite r-ggrepel \
   r-cowplot r-patchwork r-ggpubr r-ggnetwork r-plotly \
@@ -73,7 +73,7 @@ conda install -c conda-forge \
 
 After that, enter R and run the following to install the dependencies:
 
-``` R
+```R
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
 
@@ -88,7 +88,7 @@ BiocManager::install(package_list)
   <summary>Linux users WITHOUT conda/mamba environment</summary>
 We strongly suggest that you use R within a conda/mamba environment! You can easily run the following command to install R inside a new conda environment:
 
-``` bash
+```bash
 conda create -n my_r_env r-base r-devtools
 conda activate my_r_env
 ```
@@ -97,7 +97,7 @@ Then, you may refer to the installation guide for Linux users WITH conda/mamba e
 If you are using a system R (not in a conda/mamba environment), it would be quite troublesome to install various libraries.
 For Ubuntu/Debian users:
 
-``` bash
+```bash
 sudo apt update
 sudo apt install -y \
   libfreetype6-dev \
@@ -122,7 +122,7 @@ sudo dnf install -y \
 ```
 After that, enter R and run the following to install the dependencies:
 
-``` R
+```R
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
 
@@ -142,9 +142,11 @@ To install the SigXTalk R package, you may either install from remote or from lo
   <summary>OPTION 1: remote installation</summary>
 
 Run the following command in R:
-``` R
+
+```R
 devtools::install_github("LithiumHou/SigXTalk", dependencies = T, upgrade = "always")
 ```
+
 Note: using `devtools::install_github` in Rstudio sometimes causes a github's token issue. In this case, you may need to generate a token. Please see [here](https://usethis.r-lib.org/articles/git-credentials.html). Alternatively, you may try local installation (see below).
 
 <\details>
@@ -153,7 +155,7 @@ Note: using `devtools::install_github` in Rstudio sometimes causes a github's to
   <summary>OPTION 2: install from local</summary>
 You may download or clone the SigXTalk repository to your device and run:
   
-``` R
+```R
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools") 
 devtools::install("/path/to/SigXTalk") # Replace it with the path where you store the SigXTalk repository
@@ -162,18 +164,19 @@ devtools::install("/path/to/SigXTalk") # Replace it with the path where you stor
 <\details>
 
 ### Installation of the SigXTalk Python module 
-SigXTalk requires a Python module to operate correctly. We strongly recommend that an independent python environment be created to run SigXTalk.
+SigXTalk requires a Python module to operate correctly. We strongly recommend that an independent python environment (either conda or mamba) be created to run SigXTalk.
+
 If you are using conda (Anaconda or Miniconda) environments:
-```
+```bash
 conda create -n SigXTalk_py python=3.8
 conda activate SigXTalk_py
 ```
 Alternatively, if you prefer mamba environments:
-```
+```bash
 mamba create --name SigXTalk_py python=3.8
 mamba activate SigXTalk_py
 ```
-If you want to use your own environment, please make sure the version of your Python version is 3.8.X. 
+If you want to use your existing environment, please make sure the version of your Python version is 3.8.X. 
 The Python library torch is necessary to perform the deep learning in SigXTalk, which could be run on both CUDA and CPU device. We strongly recommend using CUDA (for Linux and Windows systems only) to accelerate the training of neural network using torch.
 The installation command of torch depends on your operating system and device and may cause compatibility issues (which is why we prefer a separated installation of torch instead of integrating it to the installation of other dependencies). If you encounter any issue, or want to know more details, please visit the [torch installation guide](https://pytorch.org/get-started/locally/).
 
