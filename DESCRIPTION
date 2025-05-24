@@ -36,6 +36,7 @@ Suggests:
 	ggridges,
 	extrafont
 Remotes:
+	url::https://cran.r-project.org/src/contrib/Archive/recipes/recipes_1.1.1.tar.gz,
 	url::https://cran.r-project.org/src/contrib/Archive/Matrix/Matrix_1.6-4.tar.gz,
 	immunogenomics/presto,
 	jinworks/CellChat
