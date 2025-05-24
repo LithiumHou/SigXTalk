@@ -1,5 +1,7 @@
 # A quick start for SigXTalk
 
+A clean R script (no markdown instructions) of this tutorial is available [here](./demo_pbmc.R).
+
 ## Load required packages
 ```
 library(SigXTalkR)
@@ -8,30 +10,27 @@ library(dplyr)
 library(CellChat)
 ```
 ## Set the working directory
-The working directory is where you store the dataset and python script `main.py`. In this tutorial, we simply use the `vignettes` as the directory.
-The structure of the working directory should be like the following. Here, directories `inputs` and `outputs` will be created automatically while running the script, you do not need to create them by yourself.
+The working directory is where you store the dataset and python script `main.py`. It should at least contain the following:
 
 - **work_dir/**
-  - **inputs/**
-  - **outputs/**
   - **main.py**
-  - **demo.md**
   - **dataset.rds**
 
+In this tutorial, we simply use the `vignettes` as the directory.
 ```R
 work_dir <- ".../vignettes"
 setwd(work_dir)
 ```
 ## Load the example dataset
-The PBMC dataset (SigXTalk_demo_data.rds) is avaliable [here](https://drive.google.com/file/d/1e019IYCU_jV90FmCjJsPj0f1kvnzRf7u/view?usp=sharing).
+The PBMC dataset (SigXTalk_demo_data.rds) is available [here](https://drive.google.com/file/d/1e019IYCU_jV90FmCjJsPj0f1kvnzRf7u/view?usp=sharing).
 ```R
 SeuratObj <- readRDS("./SigXTalk_demo_data.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
 ```
-Note: the example data imported here has been processed using the R script [here](Process_pbmc.R). For a full turotial on how to process raw data with Seurat, visit [Seurat's tutorial for pbmc3k data](https://satijalab.org/seurat/articles/pbmc3k_tutorial). 
+Note: the example data has been processed using the R script [here](Process_pbmc.R). For a full turotial on how to process raw data with Seurat, visit [Seurat's tutorial for pbmc3k data](https://satijalab.org/seurat/articles/pbmc3k_tutorial). 
 
 <details>
-  <summary>Here is a quick start for process your data</summary>
+  <summary>Here is a quick guide for processing your data</summary>
   
 ```R
 # DO NOT run for this tutorial
@@ -121,10 +120,8 @@ RTFTG_results <- RTFTG_results[RTFTG_results$pred_label > 0.75, ]
 RTFTG_results <- RTFTG_results[,1:3] # The activated pathways
 Exp_clu <- Get_Exp_Clu(SeuratObj, clusterID = target_type, assay = "RNA", datatype = "data", cutoff = 0.1)
 ress <- PRS_calc(Exp_clu, RTFTG_results, cutoff = 0.1)
-ress <- ress[!grepl("^MT-", ress$Target), ]
-ress <- ress[!grepl("^RPL", ress$Target), ]
-ress <- ress[!grepl("^RPS", ress$Target), ]
-results_filtered <- filter(ress, Weight > 0.01*max(ress$Weight))
+# Filter out the low-PRS pathways
+results_filtered <- Filter_results(ress, PRS_threshold = 0.01)
 ```
 
 ## Save the results (optional)
