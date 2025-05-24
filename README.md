@@ -24,6 +24,7 @@ The installation of the SigXTalk Python module, from creating the conda environm
 R >= 4.1.1 is required to correctly install SigXTalk and other dependencies.
 Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
 The installation of R dependencies may vary across different operating systems. Please check the corresponding guide that matches your system.
+
 <details>
   <summary>If you use R on Windows</summary>
 If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
@@ -36,13 +37,12 @@ Some dependencies are required for installing and running CellChat/SigXTalk but 
   if (!require("BiocManager", quietly = TRUE))
       install.packages("BiocManager") 
   BiocManager::install(package_list)
-  
+  ```
 </details>
 ```
-|
-<details>
-  <summary>If you use R on MacOS</summary>
 
+<details>
+  <summary>MacOS users</summary>
 ```
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
@@ -52,7 +52,24 @@ if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager") 
 BiocManager::install(package_list)
 ```
+
 </details>
+```
+<details>
+  <summary>Windows users</summary>
+If you haven't installed Rtools on Windows (which is usually not automatically installed with R), please see [here](https://cran.r-project.org/bin/windows/Rtools/).
+Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
+  ```
+  if (!require("devtools", quietly = TRUE))
+      install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
+  
+  package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
+  if (!require("BiocManager", quietly = TRUE))
+      install.packages("BiocManager") 
+  BiocManager::install(package_list)
+  ```
+</details>
+```
 
 * If you are using R within a conda/mamba environment (especially if R is newly installed), the installation of dependencies (especially Seurat and CellChat) may become quite time-consuming and even annoying. You need to install additional libraries using command lines (not in R) before installing the dependencies:
 ```
