@@ -21,7 +21,7 @@ The installation of the SigXTalk Python module, from creating the conda environm
 
 
 ### Installation of the dependencies of SigXTalk R package
-R >= 4.1.1 is required to correctly install SigXTalk and other dependencies.
+R >= 4.1.1 is required to correctly install SigXTalk and other dependencies. 
 Some dependencies are required for installing and running CellChat/SigXTalk but are not availiable on CRAN. We suggest that it be installed manually.
 The installation of R dependencies may vary across different operating systems. Please check the corresponding guide that matches your system.
 
@@ -47,8 +47,8 @@ BiocManager::install(package_list2)
 <summary> MacOS users </summary>
   
 ```r
-install.packages(c("httpuv","rlang"), type = "source")
-install.packages(c("devtools","shiny"), type = "source")  # If you haven't installed devtools before, it may take several minutes.
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools") 
 
 package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
 if (!require("BiocManager", quietly = TRUE))
@@ -65,9 +65,9 @@ If you use R inside a conda/mamba environment, you need to install additional li
 
 ```bash
 conda install -c conda-forge \
-  r-devtools r-ggplot2 r-svglite r-ggrepel \
+  r-devtools r-ggplot2 r-svglite r-ggrepel r-ragg r-systemfonts\
   r-cowplot r-patchwork r-ggpubr r-ggnetwork r-plotly \
-  r-mass r-lattice freetype libpng libxml2 libcurl openssl libuv cmake 
+  r-mass r-lattice freetype libpng libxml2 libcurl openssl libuv cmake
 # If you are using mamba, simply replace 'conda install' with 'mamba install' (but keep 'conda-forge' unchanged)
 ```
 
