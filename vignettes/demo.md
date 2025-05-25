@@ -108,6 +108,29 @@ conda_binary("/path/to/mamba")
 mamba_env <- "SigXTalk_py" # The mamba environment that is previously installed to train the hypergraph neural network
 Run_py_script(python_script, mamba_env, args)
 ```
+<details>
+<summary>TROUBLESHOOTING: If you encounter errors with reticulate::usecondaenv()</summary>
+
+On a Windows terminal, sometimes you cannot locate the conda environment and run into error:
+
+```R
+Run_py_script(python_script, conda_env, args)
+Error in reticulate::use_condaenv(conda_env, required = TRUE): 
+  Unable to locate conda environment 'SigXTalk_py'.
+```
+In this case, you may use the absolute path of SigXTalk_py:
+```R
+conda_env <- "/path/to/SigXTalk_py"
+Run_py_script(python_script, conda_env, args)
+```
+
+Alternatively, you may use the system2() function:
+```R
+conda_env <- "SigXTalk_py"
+system2("conda", args = c("run", "-n", conda_env, "python", python_script, args))
+```
+
+</details>
 
 The results will be automatically saved in the `/outputs` directory. You can also save it to other directories by directly modifying the paths in `main.py` file.
 
