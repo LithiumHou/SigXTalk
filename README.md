@@ -74,8 +74,7 @@ conda install -c conda-forge \
 After that, enter R and run the following to install the dependencies:
 
 ```R
-if (!require("devtools", quietly = TRUE))
-    install.packages("devtools")  # If you haven't installed devtools before, it may take several minutes.
+install.packages("htmltools")
 
 package_list <- c("Biobase","BiocNeighbors","ComplexHeatmap","BiocGenerics")
 if (!require("BiocManager", quietly = TRUE))
