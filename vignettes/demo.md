@@ -123,7 +123,7 @@ In this case, you may use the absolute path of SigXTalk_py:
 conda_env <- "/path/to/SigXTalk_py"
 Run_py_script(python_script, conda_env, args)
 ```
-
+The path of the conda environment could be accessed by running `conda env list` in the command line (not in R)
 Alternatively, you may use the system2() function:
 ```R
 conda_env <- "SigXTalk_py"
