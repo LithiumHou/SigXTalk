@@ -1,6 +1,6 @@
 # A quick start for SigXTalk
 
-A clean R script (no markdown instructions) of this tutorial is available [here](./demo_pbmc.R).
+A clean R script (no markdown instructions) of this tutorial is available through [here](./demo_pbmc.R).
 
 ## Load required packages
 ```
@@ -22,7 +22,7 @@ work_dir <- ".../vignettes"
 setwd(work_dir)
 ```
 ## Load the example dataset
-The PBMC dataset (SigXTalk_demo_data.rds) is available [here](https://drive.google.com/file/d/1e019IYCU_jV90FmCjJsPj0f1kvnzRf7u/view?usp=sharing).
+The PBMC dataset (SigXTalk_demo_data.rds) is available via the [Google Drive Link](https://drive.google.com/file/d/1e019IYCU_jV90FmCjJsPj0f1kvnzRf7u/view?usp=sharing) or [Zenodo Link](https://zenodo.org/records/15531285).
 ```R
 SeuratObj <- readRDS("./SigXTalk_demo_data.rds") # as the seurat object
 cell_anno <- data.frame(cell = names(Idents(SeuratObj)), cluster = Idents(SeuratObj) %>% as.character()) # The metadata of the dataset
