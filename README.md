@@ -95,10 +95,11 @@ brew install freetype harfbuzz pkg-config
 
 STEP 5: Restart Rstudio and retry the installation of SigXTalk.
 </details>
+
 </details>
 
 
-<details>
+
 <details>
   <summary>Linux users WITH conda/mamba environment</summary>
 If you use R inside a conda/mamba environment, you need to install additional libraries using command lines (not in R) before installing the dependencies:
