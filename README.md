@@ -56,22 +56,26 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install(package_list)
 ```
 <details>
-<summary> Trouble shooting </summary>
+<summary> Troubleshooting </summary>
   
 1. Sometimes, you may need XQuartz for the installation. If such error occurs, please visit [here](https://www.xquartz.org/) to install XQuartz. After that, restart R and try the above code again.
 
 2. If you install the dependencies on a vanilla R environment, you may encounter the issue: `library 'gfortran' not found` or `'libintl.h' file not found`. In this case, you will need to add environment variables to ~/.R/Makevars as follows:
 STEP 1: Install compilers via Homebrew (using the Terminal):
+
 ```bash
 brew install gcc gettext
 ```
+
 STEP 2: Create and open the `~/.R/Makevars` file (using the Terminal):
+
 ```bash
 mkdir -p ~/.R
 touch ~/.R/Makevars
 ```
 
 STEP 3: Add the following to the `~/.R/Makevars` file:
+
 ```
 FC = /opt/homebrew/bin/gfortran
 F77 = /opt/homebrew/bin/gfortran
@@ -79,18 +83,16 @@ CPPFLAGS = -I/opt/homebrew/opt/gettext/include
 LDFLAGS = -L/opt/homebrew/Cellar/gcc/15.1.0/lib/gcc/current
 FLIBS = -lgfortran
 ```
+
 Please ensure the file ends with a newline.
 
-STEP 4: Install additional packages (using the Terminal:
+STEP 4: Install additional packages (using the Terminal):
+
 ```bash
 brew install freetype harfbuzz pkg-config
 ```
 
 STEP 5: Restart Rstudio and retry the installation of dependencies.
-</details>
-
-
-<details>
 </details>
 
 <details>
