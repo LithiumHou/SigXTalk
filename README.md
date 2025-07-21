@@ -2,7 +2,7 @@
 ![Figure](/Fig1.jpg)
 ## About
 This directory contains the code and resources of the following paper:
-"Dissecting crosstalk induced by cell-cell communication using single-cell transcriptomic data"
+[Dissecting crosstalk induced by cell-cell communication using single-cell transcriptomic data](https://www.nature.com/articles/s41467-025-61149-7)
 
 ## Introduction
 SigXTalk is a deep learning-based computational method to analyze potential crosstalk between multiple regulatory pathways induced by cell-cell communication (CCC). Based on single-cell transcriptomic data and prior knowledge of gene-gene interaction, SigXTalk employs a specialized hypergraph learning framework to identify the crosstalk pathways and further measure their fidelity and specificity using tree-based machine learning approaches. Specifically, SigXTalk aims to:
